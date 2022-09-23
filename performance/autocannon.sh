@@ -7,6 +7,6 @@ URL=localhost:3001
 npx autocannon $URL -m GET \
     -W [-c 1 -d 3] \
     -c 100 \
-    -d 10
+    -d 10 \
     -p 10 \
     --renderStatusCodes
