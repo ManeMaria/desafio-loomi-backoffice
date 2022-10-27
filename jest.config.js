@@ -2,6 +2,7 @@ module.exports = {
   roots: ['<rootDir>/__tests__'],
   clearMocks: true,
   collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!<rootDir>/src/main/**'],
+  testMatch: ['**/**.spec.ts', '**/**.test.ts'],
   globals: {
     'ts-jest': {
       compiler: 'ttypescript',

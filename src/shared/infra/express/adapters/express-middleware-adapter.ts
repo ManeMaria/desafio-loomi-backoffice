@@ -5,7 +5,7 @@ import { NextFunction, Request, Response } from 'express';
 export const adaptMiddleware = (middleware: Middleware): any => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const request = {
-      accessToken: req.headers?.authorization,
+      access_token: req.headers?.authorization,
     };
 
     const httpResponse = await middleware.handle(request);

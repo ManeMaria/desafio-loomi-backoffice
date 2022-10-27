@@ -38,7 +38,7 @@ describe('Prisma Get {{pascalCase name}} by ID Repository', () => {
   it('should list a {{camelCase name}} by id', async () => {
     const { sut } = makeSut();
 
-    const fake{{pascalCase name}} = {{pascalCase name}}Factory.build();
+    const fake{{pascalCase name}} = {{pascalCase name}}Factory.build({ enabled: true });
 
     const {{camelCase name}}Created = await prismaTest?.{{camelCase name}}.create({
       data: fake{{pascalCase name}},

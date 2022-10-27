@@ -40,6 +40,7 @@ describe('Prisma Count {{pascalCase name}}s By Filters Repository', () => {
     for (const name of ['ABCDE', 'abce', 'abcd']) {
       const fake{{pascalCase name}} = {{pascalCase name}}Factory.build({
         name,
+        enabled: true,
       });
 
       await prismaTest?.{{camelCase name}}.create({

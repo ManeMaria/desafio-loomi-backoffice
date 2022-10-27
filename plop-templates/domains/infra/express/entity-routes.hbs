@@ -30,7 +30,7 @@ const {{camelCase name}}Router = Router();
     adaptRoute(makeHttpUpdate{{pascalCase name}}ByIdController())
   )
   .delete(
-    authMiddleware('ADMIN'),
+    authMiddleware('USER'),
     adaptRoute(makeHttpDelete{{pascalCase name}}ByIdController())
   );
 

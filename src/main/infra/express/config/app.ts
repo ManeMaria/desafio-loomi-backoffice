@@ -8,7 +8,10 @@ import { env } from '@/main/config';
 const app = express();
 
 (async () => {
-  if (env.application.mode !== 'production') {
+  if (
+    env.application.mode !== 'production' &&
+    env.application.mode !== 'test'
+  ) {
     await (async () => {
       (await import('./swagger.js')).default(app);
     })();

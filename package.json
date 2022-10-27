@@ -17,7 +17,7 @@
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
     "test:integration": "npm test -- --watch -c jest-integration-config.js --verbose",
-    "test:staged": "npm test -- --findRelatedTests",
+    "test:staged": "npm test -- --findRelatedTests --runInBand",
     "test:ci": "npm test -- --coverage",
     "prisma:generate": "npx prisma generate --schema=./src/main/infra/prisma/schema.prisma",
     "prisma:migration": "npx prisma migrate --schema=./src/main/infra/prisma/schema.prisma --name",
@@ -42,6 +42,7 @@
     "@types/jest": "^27.5.0",
     "@types/pino": "^6.3.12",
     "@types/pino-http": "^5.8.0",
+    "@types/supertest": "^2.0.12",
     "@types/swagger-ui-express": "^4.1.3",
     "@types/uuid": "^8.3.1",
     "@types/validator": "^13.6.6",
@@ -64,6 +65,7 @@
     "plop": "^2.7.6",
     "prettier": "^2.4.1",
     "rimraf": "^3.0.2",
+    "supertest": "^6.2.4",
     "swagger-ui-express": "^4.3.0",
     "ts-auto-mock": "^3.6.2",
     "ts-jest": "^27.1.4",
@@ -90,6 +92,7 @@
     "pino": "^7.1.0",
     "pino-http": "^6.0.0",
     "prisma": "^3.9.1",
+    "ts-case-convert": "^2.0.2",
     "validator": "^13.7.0"
   },
   "_moduleAliases": {

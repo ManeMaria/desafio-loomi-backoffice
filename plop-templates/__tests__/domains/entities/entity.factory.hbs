@@ -3,7 +3,7 @@ import * as faker from 'faker';
 import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
 
 const {{dashCase name}}Factory = factory.Sync.makeFactory<{{pascalCase name}}>({
-   id: factory.each(() => faker.datatype.uuid()),
+  id: factory.each(() => faker.datatype.uuid()),
   name: factory.each(() => faker.name.firstName()),
   enabled: factory.each(() => faker.datatype.boolean()),
   createdAt: factory.each(() => faker.datatype.datetime()),

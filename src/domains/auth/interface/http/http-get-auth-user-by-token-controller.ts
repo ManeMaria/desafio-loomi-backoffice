@@ -65,7 +65,7 @@ export class HttpGetAuthUserByTokenController implements HttpController {
       });
 
       if (this.authUserRole === 'ADMIN' && !authUser.is_admin) {
-        return unauthorized();
+        return forbidden();
       }
 
       this.logger.logDebug({
@@ -84,7 +84,7 @@ export class HttpGetAuthUserByTokenController implements HttpController {
         error instanceof AuthUserNotFoundByTokenException ||
         error instanceof CognitoException
       ) {
-        return forbidden(error);
+        return unauthorized(error);
       }
 
       return serverError(error as Error);

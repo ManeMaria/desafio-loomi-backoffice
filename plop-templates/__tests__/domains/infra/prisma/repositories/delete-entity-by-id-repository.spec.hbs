@@ -37,7 +37,7 @@ describe('Prisma delete a {{pascalCase name}} Repository', () => {
   it('should delete a {{camelCase name}} by it\'s id', async () => {
     const { sut } = makeSut();
 
-    const fake{{pascalCase name}} = {{pascalCase name}}Factory.build();
+    const fake{{pascalCase name}} = {{pascalCase name}}Factory.build({ enabled: true });
 
     const {{camelCase name}}Created = await prismaTest?.{{camelCase name}}.create({
       data: fake{{pascalCase name}},

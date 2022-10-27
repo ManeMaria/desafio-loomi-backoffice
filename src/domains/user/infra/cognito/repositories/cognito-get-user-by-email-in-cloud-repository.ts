@@ -29,11 +29,11 @@ export class CognitoGetUserByEmailInCloudRepository
             return resolve(null);
           }
 
-          const { Username: username, UserStatus: status }: any = data;
-
           if (!data) {
             resolve(null);
           }
+
+          const { Username: username, UserStatus: status }: any = data;
 
           const user = {
             status,

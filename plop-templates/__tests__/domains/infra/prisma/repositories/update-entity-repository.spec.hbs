@@ -38,9 +38,9 @@ describe('Prisma Update {{pascalCase name}} Repository', () => {
   test('Should update a {{camelCase name}}', async () => {
     const { sut } = makeSut();
 
-    const fake{{pascalCase name}} = {{pascalCase name}}Factory.build();
+    const fake{{pascalCase name}} = {{pascalCase name}}Factory.build({ enabled: true });
 
-    const paramsToUpdate = {{pascalCase name}}Factory.build();
+    const paramsToUpdate = {{pascalCase name}}Factory.build({ enabled: true });
 
     await prismaTest?.{{camelCase name}}.create({ data: fake{{pascalCase name}} });
 

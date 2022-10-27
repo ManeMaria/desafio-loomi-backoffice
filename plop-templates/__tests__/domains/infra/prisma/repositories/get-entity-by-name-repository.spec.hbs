@@ -38,7 +38,7 @@ describe('Prisma Get {{pascalCase name}} by Name Repository', () => {
   it('should list a {{camelCase name}} by name', async () => {
     const { sut } = makeSut();
 
-    const fake{{pascalCase name}} = {{pascalCase name}}Factory.build();
+    const fake{{pascalCase name}} = {{pascalCase name}}Factory.build({ enabled: true });
 
     const {{camelCase name}}Created = await prismaTest?.{{camelCase name}}.create({
       data: fake{{pascalCase name}},
@@ -46,7 +46,7 @@ describe('Prisma Get {{pascalCase name}} by Name Repository', () => {
 
     if (!{{camelCase name}}Created) throw new Error('{{pascalCase name}} not created');
 
-    const {{camelCase name}} = await sut.get({{camelCase name}}Created.corporateName);
+    const {{camelCase name}} = await sut.get({{camelCase name}}Created.name);
 
     const expectedResult = new {{pascalCase name}}({
       ...fake{{pascalCase name}},
