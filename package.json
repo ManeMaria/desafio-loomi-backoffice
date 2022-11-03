@@ -92,8 +92,9 @@
     "pino": "^7.1.0",
     "pino-http": "^6.0.0",
     "prisma": "^3.9.1",
-    "ts-case-convert": "^2.0.2",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "xlsx": "^0.18.5",
+    "ts-case-convert": "^2.0.2"
   },
   "_moduleAliases": {
     "@": "dist"
