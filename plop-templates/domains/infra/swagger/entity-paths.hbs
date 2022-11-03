@@ -74,7 +74,7 @@ export const {{camelCase name}}Paths = {
       },
       security,
       responses: {
-        ...SwaggerResponse.ok(
+        ...SwaggerResponse.created(
           '{{pascalCase name}} created',
           SwaggerContents.applicationJson([], [], {{camelCase name}}Object)
         ),
@@ -127,7 +127,7 @@ export const {{camelCase name}}Paths = {
       parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true]]),
       security,
       responses: {
-        ...SwaggerResponse.ok('{{pascalCase name}} updated'),
+        ...SwaggerResponse.noContent(),
         ...SwaggerResponse.notFound('{{pascalCase name}} not found'),
         ...defaultResponses,
       },

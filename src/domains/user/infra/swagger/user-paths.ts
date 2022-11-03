@@ -73,7 +73,7 @@ export const userPaths = {
       },
       security,
       responses: {
-        ...SwaggerResponse.ok(
+        ...SwaggerResponse.created(
           'User created',
           SwaggerContents.applicationJson([], [], userObject)
         ),
@@ -126,7 +126,7 @@ export const userPaths = {
       parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true]]),
       security,
       responses: {
-        ...SwaggerResponse.ok('User deleted'),
+        ...SwaggerResponse.noContent(),
         ...SwaggerResponse.notFound('User not found'),
         ...defaultResponses,
       },

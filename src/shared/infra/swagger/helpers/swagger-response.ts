@@ -54,6 +54,23 @@ export class SwaggerResponse {
       },
     };
   }
+
+  static created(description: string = 'OK', content?: any) {
+    return {
+      201: {
+        description,
+        ...(content ? { content } : {}),
+      },
+    };
+  }
+
+  static noContent(description: string = 'No body return') {
+    return {
+      204: {
+        description,
+      },
+    };
+  }
 }
 
 export const defaultResponses = {
