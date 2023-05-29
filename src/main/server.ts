@@ -5,6 +5,7 @@ import { expressHttpServer } from '@/main/infra/express/express-http-client';
 import { pinoLoggerLocal as loggerLocal } from '@/main/infra/logs/pino';
 import { sentryLoggerCloud as loggerErrorCloud } from '@/main/infra/logs/sentry';
 import { prismaConnector } from '@/main/infra/prisma/prisma-connector';
+// import { socketInstance } from '@/main/infra/websocket';
 
 const exitStatus = {
   Failure: 1,
@@ -41,6 +42,12 @@ async function main() {
         `Server runing at http://localhost:${env.httpServer.port}`
       )
     );
+
+    // socketInstance.create(expressHttpServer, {
+    //   cors: {
+    //     origin: '*'
+    //   },
+    // });
 
     const exitSignals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM', 'SIGQUIT'];
     exitSignals.map((sig) =>
