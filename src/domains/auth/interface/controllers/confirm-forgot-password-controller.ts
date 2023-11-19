@@ -5,7 +5,6 @@ import {
   IConfirmForgotPasswordInCloudGateway,
 } from '@/domains/auth/usecases/gateways';
 
-import { ILoggerLocal } from '@/shared/protocols';
 import { ValidationException } from '@/shared/helpers';
 import { Validation } from '@/shared/interface/validation/protocols';
 
@@ -19,36 +18,31 @@ export type ConfirmForgotPasswordResponse = void;
 
 export class ConfirmForgotPasswordController {
   private usecase: ConfirmForgotPasswordUsecase;
-  private logger: ILoggerLocal;
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     confirmForgotPasswordInCloudGateway: IConfirmForgotPasswordInCloudGateway,
-    private readonly validation: Validation,
-    logger: ILoggerLocal
+    private readonly validation: Validation
   ) {
     this.usecase = new ConfirmForgotPasswordUsecase(
       getAuthUserByEmailRepository,
       getAuthUserByEmailInCloudGateway,
-      confirmForgotPasswordInCloudGateway,
-      logger
+      confirmForgotPasswordInCloudGateway
     );
-
-    this.logger = logger.child({ controller: 'confirm-forgot-password' });
   }
 
   async execute(
     request: ConfirmForgotPasswordRequest
   ): Promise<ConfirmForgotPasswordResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: request });
+    console.log({ message: 'Request Received', data: request });
     const hasError = this.validation.validate(request);
 
     if (hasError) {
       throw new ValidationException(hasError);
     }
 
-    this.logger.logDebug({ message: 'Params Validated' });
+    console.log({ message: 'Params Validated' });
 
     const { email, verificationCode, newPassword } = request;
 
@@ -58,7 +52,7 @@ export class ConfirmForgotPasswordController {
       newPassword,
     });
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth User confirm forgot password',
       data: request,
     });

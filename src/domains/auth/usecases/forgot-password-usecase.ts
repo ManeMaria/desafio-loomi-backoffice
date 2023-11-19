@@ -8,8 +8,6 @@ import {
   IGetAuthUserByEmailInCloudGateway,
 } from '@/domains/auth/usecases/gateways';
 
-import { ILoggerLocal } from '@/shared/protocols';
-
 export interface IForgotPasswordUsecase {
   execute(
     params: IForgotPasswordUsecase.Params
@@ -22,21 +20,16 @@ export namespace IForgotPasswordUsecase {
 }
 
 export class ForgotPasswordUsecase implements IForgotPasswordUsecase {
-  private logger: ILoggerLocal;
-
   constructor(
     private readonly getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     private readonly getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
-    private readonly forgotPasswordInCloudGateway: IForgotPasswordInCloudGateway,
-    logger: ILoggerLocal
-  ) {
-    this.logger = logger.child({ usecase: 'forgot-password' });
-  }
+    private readonly forgotPasswordInCloudGateway: IForgotPasswordInCloudGateway
+  ) {}
 
   async execute(
     forgotParams: IForgotPasswordUsecase.Params
   ): Promise<IForgotPasswordUsecase.Response> {
-    this.logger.logDebug({ message: 'Request Received', data: forgotParams });
+    console.log({ message: 'Request Received', data: forgotParams });
 
     const { email } = forgotParams;
 
@@ -46,7 +39,7 @@ export class ForgotPasswordUsecase implements IForgotPasswordUsecase {
       throw new AuthUserNotFoundException({ email });
     }
 
-    this.logger.logDebug({ message: 'Auth user found', data: authUserFound });
+    console.log({ message: 'Auth user found', data: authUserFound });
 
     const cloudAuthUser = await this.getAuthUserByEmailInCloudGateway.get(
       email
@@ -56,7 +49,7 @@ export class ForgotPasswordUsecase implements IForgotPasswordUsecase {
       throw new AuthUserNotFoundException({ email });
     }
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth User found in cloud',
       data: cloudAuthUser,
     });
@@ -69,7 +62,7 @@ export class ForgotPasswordUsecase implements IForgotPasswordUsecase {
 
     await this.forgotPasswordInCloudGateway.forgot({ email });
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth User forgot password',
       data: email,
     });

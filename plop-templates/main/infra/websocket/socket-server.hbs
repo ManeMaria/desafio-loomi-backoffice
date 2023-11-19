@@ -1,12 +1,12 @@
 import http from 'http';
 import { Server } from 'socket.io';
 
-import { pinoLoggerLocal } from '@/main/infra/logs/pino';
+import {  } from '@/main/infra/logs/pino';
 import { addAvailableEvents, SocketException } from '@/main/infra/websocket';
 
 class SocketServer {
   private client: null | Server = null;
-  private loggerlocal = pinoLoggerLocal;
+  private loggerlocal = ;
 
   create(server: http.Server, options: any): Server {
     if (this.client !== null) {

@@ -8,7 +8,7 @@ import {
   HttpResponse,
   HttpController,
 } from '@/shared/interface/http/protocols';
-import { ILoggerLocal } from '@/shared/protocols';
+
 import { Validation } from '@/shared/interface/validation/protocols';
 import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
 import { DateFilter, OrderByMode, ValidationException } from '@/shared/helpers';
@@ -16,7 +16,7 @@ import { DateFilter, OrderByMode, ValidationException } from '@/shared/helpers';
 export type HttpGetUsersByFilterRequest = {
   name?: string;
   email?: string;
-  is_admin?: boolean;
+  type?: string;
   enabled?: boolean;
   created_at?: DateFilter;
   updated_at?: DateFilter;
@@ -31,33 +31,28 @@ export type HttpGetUsersByFilterRequest = {
 
 export class HttpGetUsersByFilterController implements HttpController {
   private controller: GetUsersByFilterController;
-  private logger: ILoggerLocal;
 
   constructor(
     getUsersByFilterRepository: IGetUsersByFilterRepository,
     countUsersByFilterRepository: ICountUsersByFilterRepository,
-    validation: Validation,
-    logger: ILoggerLocal
+    validation: Validation
   ) {
     this.controller = new GetUsersByFilterController(
       getUsersByFilterRepository,
       countUsersByFilterRepository,
-      validation,
-      logger
+      validation
     );
-
-    this.logger = logger.child({ httpController: 'get-users-by-filter' });
   }
 
   async handle(
     httpRequest: HttpGetUsersByFilterRequest
   ): Promise<HttpResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+    console.log({ message: 'Request Received', data: httpRequest });
 
     const {
       name,
       email,
-      is_admin: isAdmin,
+      type,
       enabled,
       created_at: createdAt,
       updated_at: updatedAt,
@@ -71,7 +66,7 @@ export class HttpGetUsersByFilterController implements HttpController {
       const users = await this.controller.execute({
         name,
         email,
-        isAdmin,
+        type,
         enabled,
         createdAt,
         updatedAt,
@@ -81,7 +76,7 @@ export class HttpGetUsersByFilterController implements HttpController {
         count,
       });
 
-      this.logger.logDebug({ message: 'Users found' });
+      console.log({ message: 'Users found' });
 
       return ok(users);
     } catch (error) {

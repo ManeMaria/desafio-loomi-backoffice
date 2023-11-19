@@ -4,12 +4,10 @@ import { s3Environments, IDeleteArchive } from '@/shared/interface/s3-bucket';
 import { AwsS3Exception } from './aws-s3-exception';
 import { env } from '@/main/config';
 
-import { ILoggerLocal } from '@/shared/protocols';
-import { pinoLoggerLocal } from '../logs';
+
 
 export class AwsS3DeleteArchive implements IDeleteArchive {
   private readonly s3Instance: S3;
-  private logger: ILoggerLocal;
 
   constructor() {
     this.s3Instance = new aws.S3({
@@ -17,18 +15,17 @@ export class AwsS3DeleteArchive implements IDeleteArchive {
       signatureVersion: 'v4',
       ...(env.application.mode === 'local'
         ? {
-            credentials: {
-              accessKeyId: s3Environments.accessKeyId,
-              secretAccessKey: s3Environments.secretAccessKey,
-            },
-          }
+          credentials: {
+            accessKeyId: s3Environments.accessKeyId,
+            secretAccessKey: s3Environments.secretAccessKey,
+          },
+        }
         : {}),
     });
-    this.logger = pinoLoggerLocal;
   }
 
   async delete(params: IDeleteArchive.Params): Promise<void> {
-    this.logger.logDebug({
+    console.log({
       message: 'AwsS3DeleteArchive',
       params,
     });
@@ -45,7 +42,7 @@ export class AwsS3DeleteArchive implements IDeleteArchive {
       Key: pathWithoutLink,
     };
 
-    this.logger.logDebug({
+    console.log({
       message: 'AwsS3DeleteArchive-Delete-params',
       deleteParams,
     });
@@ -56,7 +53,7 @@ export class AwsS3DeleteArchive implements IDeleteArchive {
           throw new AwsS3Exception(err, 'Delete Error');
         }
 
-        this.logger.logDebug({
+        console.log({
           message: 'AwsS3DeleteArchive-Archive-Deleted',
           deleteParams,
         });

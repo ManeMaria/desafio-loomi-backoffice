@@ -1,6 +1,6 @@
 import { ExceptionTypes, DefaultException } from '@/shared/helpers';
 import { NextFunction, Request, Response } from 'express';
-import { sentryLoggerCloud } from '@/main/infra/logs/sentry';
+
 
 export const errorMiddleware = async (
   error: any,
@@ -12,7 +12,7 @@ export const errorMiddleware = async (
 
   if (error.body instanceof DefaultException) {
     if (status === 500) {
-      sentryLoggerCloud.logError(error.body);
+      console.log(error.body);
     }
 
     res.status(status).json({
@@ -27,7 +27,7 @@ export const errorMiddleware = async (
 
   if (error.body) {
     if (status === 500) {
-      sentryLoggerCloud.logError(error.body);
+      console.log(error.body);
     }
 
     res.status(status).json({
@@ -41,7 +41,7 @@ export const errorMiddleware = async (
   }
 
   if (status === 500) {
-    sentryLoggerCloud.logError(error);
+    console.log(error);
   }
 
   res.status(status).json({

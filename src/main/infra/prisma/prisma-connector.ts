@@ -2,10 +2,16 @@ import { PrismaClient } from '@prisma/client';
 import prismaEnviroment from './prisma-enviroment';
 
 class PrismaConnector {
-  private readonly url: string = prismaEnviroment.url;
+  private readonly url?: string = prismaEnviroment.url;
   client: null | PrismaClient = null;
 
   connect(url?: string): PrismaClient {
+
+    if (!this.url) {
+      throw new Error('Url is required');
+    }
+
+
     if (this.client !== null) {
       return this.client;
     }

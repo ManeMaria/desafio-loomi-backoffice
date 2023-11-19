@@ -19,7 +19,7 @@ import {
   ValidationException,
 } from '@/shared/helpers';
 
-import { ILoggerLocal } from '@/shared/protocols';
+
 import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface Get{{pascalCase name}}sByFilterRequest {
@@ -45,27 +45,27 @@ export type Get{{pascalCase name}}sByFilterResponse =
 
 export class Get{{pascalCase name}}sByFilterController {
   private usecase: Get{{pascalCase name}}sByFilterUsecase;
-  private logger: ILoggerLocal;
+
 
   constructor(
     get{{pascalCase name}}sByFilterRepository: IGet{{pascalCase name}}sByFilterRepository,
     count{{pascalCase name}}sByFilterRepository: ICount{{pascalCase name}}sByFilterRepository,
     private readonly validation: Validation,
-    logger: ILoggerLocal,
+
   ) {
     this.usecase = new Get{{pascalCase name}}sByFilterUsecase(
       get{{pascalCase name}}sByFilterRepository,
       count{{pascalCase name}}sByFilterRepository,
-      logger,
+
     );
 
-    this.logger = logger.child({ controller: 'get-{{dashCase name}}s-by-filter' });
+
   }
 
   async execute(
     request: Get{{pascalCase name}}sByFilterRequest,
   ): Promise<Get{{pascalCase name}}sByFilterResponse> {
-    this.logger.logDebug({ message: 'Request received', data: request });
+    console.log({ message: 'Request received', data: request });
 
     const hasErrors = this.validation.validate(request);
 
@@ -73,7 +73,7 @@ export class Get{{pascalCase name}}sByFilterController {
       throw new ValidationException(hasErrors);
     }
 
-    this.logger.logDebug({ message: 'Params validated' });
+    console.log({ message: 'Params validated' });
 
     const {
       orderBy: orderByDTO,
@@ -99,7 +99,7 @@ export class Get{{pascalCase name}}sByFilterController {
       count,
     });
 
-    this.logger.logDebug({
+    console.log({
       message: '{{pascalCase name}}s found',
       data: { total{{pascalCase name}}s, totalItemsListed: {{camelCase name}}s?.length },
     });

@@ -11,7 +11,7 @@ import {
   {{pascalCase name}},
 } from '@/domains/{{dashCase name}}/entities';
 
-import { ILoggerLocal } from '@/shared/protocols';
+
 
 export interface IUpdate{{pascalCase name}}ByIdUsecase {
   execute(
@@ -31,28 +31,28 @@ export namespace IUpdate{{pascalCase name}}ByIdUsecase {
 }
 
 export class Update{{pascalCase name}}ByIdUsecase implements IUpdate{{pascalCase name}}ByIdUsecase {
-  private logger: ILoggerLocal;
+
 
   constructor(
     private readonly get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
     private readonly get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
     private readonly update{{pascalCase name}}Repository: IUpdate{{pascalCase name}}Repository,
-    logger: ILoggerLocal,
+
   ) {
-    this.logger = logger.child({ usecase: 'update-{{dashCase name}}-by-id' });
+
   }
 
   async execute(
     updateParams: IUpdate{{pascalCase name}}ByIdUsecase.Params,
   ): Promise<IUpdate{{pascalCase name}}ByIdUsecase.Result> {
-    this.logger.logDebug({ message: 'Request received', data: updateParams });
+    console.log({ message: 'Request received', data: updateParams });
 
     const { id, paramsToUpdate } = updateParams;
 
     const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByIdRepository.get(id);
 
     if (!{{camelCase name}}Exists) {
-      this.logger.logError({
+      console.log({
         message: '{{pascalCase name}} found',
         data: updateParams,
       });
@@ -60,7 +60,7 @@ export class Update{{pascalCase name}}ByIdUsecase implements IUpdate{{pascalCase
       throw new {{pascalCase name}}NotFoundException({ id });
     }
 
-    this.logger.logDebug({
+    console.log({
       message: '{{pascalCase name}} found',
       data: {{camelCase name}}Exists,
     });
@@ -76,7 +76,7 @@ export class Update{{pascalCase name}}ByIdUsecase implements IUpdate{{pascalCase
       );
 
       if (is{{pascalCase name}} && is{{pascalCase name}}.id !== id) {
-        this.logger.logError({
+       console.log({
           message: '{{pascalCase name}} already exist',
           data: is{{pascalCase name}},
         });
@@ -91,7 +91,7 @@ export class Update{{pascalCase name}}ByIdUsecase implements IUpdate{{pascalCase
       {{camelCase name}}ToUpdate,
     );
 
-    this.logger.logDebug({
+    console.log({
       message: '{{pascalCase name}} updated',
       data: {{camelCase name}}Updated,
     });

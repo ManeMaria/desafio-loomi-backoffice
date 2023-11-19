@@ -9,7 +9,7 @@ export class AuthUserTransformers {
       id: authUser.id,
       name: authUser.name,
       email: authUser.email,
-      is_admin: authUser.isAdmin,
+      type: authUser.type,
     };
   }
 }

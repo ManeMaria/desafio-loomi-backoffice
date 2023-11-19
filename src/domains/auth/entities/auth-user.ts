@@ -1,21 +1,26 @@
+export enum TypeAuthUserEnum {
+  CLIENT = 'CLIENT',
+  ADMIN = 'ADMIN',
+}
+
 export type AuthUserType = {
   id: string;
-  isAdmin: boolean;
+  type: string;
   email: string;
   name: string;
 };
 
 export class AuthUser {
   id: string;
-  isAdmin: boolean;
+  type: string;
   email: string;
   name: string;
 
   constructor(params: AuthUserType) {
-    const { id, isAdmin, email, name } = params;
+    const { id, type, email, name } = params;
 
     this.id = id;
-    this.isAdmin = isAdmin;
+    this.type = type;
     this.email = email;
     this.name = name;
   }

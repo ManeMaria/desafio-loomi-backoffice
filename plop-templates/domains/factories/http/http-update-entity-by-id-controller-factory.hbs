@@ -10,7 +10,7 @@ import {
   HttpUpdate{{pascalCase name}}ByIdController,
 } from '@/domains/{{dashCase name}}/interface/http';
 
-import { pinoLoggerLocal } from '@/shared/infra/logs';
+
 
 export const makeHttpUpdate{{pascalCase name}}ByIdController =
   (): HttpUpdate{{pascalCase name}}ByIdController => {
@@ -19,13 +19,13 @@ export const makeHttpUpdate{{pascalCase name}}ByIdController =
     const update{{pascalCase name}}ByIdRepository = new PrismaUpdate{{pascalCase name}}Repository();
 
     const validation = makeUpdate{{pascalCase name}}Validation();
-    const logger = pinoLoggerLocal;
+
 
     return new HttpUpdate{{pascalCase name}}ByIdController(
       get{{pascalCase name}}ByIdRepository,
       get{{pascalCase name}}ByNameRepository,
       update{{pascalCase name}}ByIdRepository,
       validation,
-      logger,
+
     );
   };

@@ -8,7 +8,7 @@ import {
 
 import { DateFilter, OrderByFilter, Pagination } from '@/shared/helpers';
 
-import { ILoggerLocal } from '@/shared/protocols';
+
 
 export type {{pascalCase name}}Filters = {
   filters: {
@@ -36,20 +36,20 @@ export namespace IGet{{pascalCase name}}sByFilterUsecase {
 export class Get{{pascalCase name}}sByFilterUsecase
   implements IGet{{pascalCase name}}sByFilterUsecase
 {
-  private logger: ILoggerLocal;
+
 
   constructor(
     private readonly get{{pascalCase name}}sByFilterRepository: IGet{{pascalCase name}}sByFilterRepository,
     private readonly count{{pascalCase name}}sByFilterRepository: ICount{{pascalCase name}}sByFilterRepository,
-    logger: ILoggerLocal,
+
   ) {
-    this.logger = logger.child({ usecase: 'get-{{dashCase name}}s-by-filter' });
+
   }
 
   async execute(
     filterParams: IGet{{pascalCase name}}sByFilterUsecase.Params,
   ): Promise<IGet{{pascalCase name}}sByFilterUsecase.Result> {
-    this.logger.logDebug({ message: 'Request received', data: filterParams });
+    console.log({ message: 'Request received', data: filterParams });
 
     const { count, ...restFilterParams } = filterParams;
     const { filters } = restFilterParams;
@@ -68,7 +68,7 @@ export class Get{{pascalCase name}}sByFilterUsecase
       restFilterParams,
     );
 
-    this.logger.logDebug({
+    console.log({
       message: '{{pascalCase name}}s found',
       data: { total{{pascalCase name}}s },
     });

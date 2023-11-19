@@ -21,25 +21,25 @@ export type {{pascalCase feature}}Response = {{pascalCase entity}}DefaultPresent
 
 export class {{pascalCase feature}}Controller {
   private usecase: {{pascalCase feature}}Usecase;
-  private logger: ILoggerLocal;
+
 
   constructor(
     {{camelCase feature}}Repository: I{{pascalCase feature}}Repository,
     uuidGenerator: IUuidGenerator,
     private readonly validation: Validation,
-    logger: ILoggerLocal
+
   ) {
     this.usecase = new {{pascalCase feature}}Usecase(
       {{camelCase feature}}Repository,
       uuidGenerator,
-      logger
+
     );
 
-    this.logger = logger.child({ controller: '{{dashCase feature}}'});
+
   }
 
   async execute(request: {{pascalCase feature}}Request): Promise<{{pascalCase feature}}Response> {
-    this.logger.logDebug({ message: 'Request received', data: request });
+    console.log({ message: 'Request received', data: request });
 
     const { } = request;
 
@@ -51,14 +51,14 @@ export class {{pascalCase feature}}Controller {
       throw new ValidationException(hasError);
     }
 
-    this.logger.logDebug({ message: 'Params validated' });
+    console.log({ message: 'Params validated' });
 
     const {{camelCase entity}}Made = await this.usecase.execute({ });
 
     const {{camelCase entity}}MadePresenter =
       {{pascalCase entity}}Transformers.generateDefaultTransformer({{camelCase entity}}Made);
 
-    this.logger.logDebug({
+    console.log({
       message: '{{camelCase entity}} made',
       data: {{camelCase entity}}MadePresenter,
     });

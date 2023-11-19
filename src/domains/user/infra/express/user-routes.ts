@@ -18,16 +18,16 @@ userRouter
   .route('/users')
   .post(adaptRoute(makeHttpCreateUserController()))
   .get(
-    authMiddleware('USER'),
+    authMiddleware('ADMIN'),
     adaptRoute(makeHttpGetUsersByFilterController())
   );
 
 userRouter
   .route('/users/:id')
-  .get(authMiddleware('USER'), adaptRoute(makeHttpGetUserByIdController()))
-  .patch(authMiddleware('USER'), adaptRoute(makeHttpUpdateUserByIdController()))
+  .get(authMiddleware('CLIENT'), adaptRoute(makeHttpGetUserByIdController()))
+  .patch(authMiddleware('CLIENT'), adaptRoute(makeHttpUpdateUserByIdController()))
   .delete(
-    authMiddleware('USER'),
+    authMiddleware('CLIENT'),
     adaptRoute(makeHttpDeleteUserByIdController())
   );
 

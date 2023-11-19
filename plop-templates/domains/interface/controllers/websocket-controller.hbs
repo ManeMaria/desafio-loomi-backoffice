@@ -1,5 +1,5 @@
 import { IEventEmitterService } from '@/shared/interface/websocket/services';
-import { ILoggerLocal } from '@/shared/protocols';
+
 // import { Validation } from '@/shared/interface/validation/protocols';
 
 type {{pascalCase feature}}Request = {
@@ -12,9 +12,9 @@ export class {{pascalCase feature}}Controller {
   constructor(
     private readonly socketEventEmmiterService: IEventEmitterService,
     // private readonly validation: Validation,
-    private readonly logger: ILoggerLocal
+    private readonly
   ) {
-    this.logger = logger.child({ controller: '{{dashCase name}}' });
+
   }
 
   async execute(props: {{pascalCase feature}}Request): Promise<{{pascalCase feature}}Response> {
@@ -23,7 +23,7 @@ export class {{pascalCase feature}}Controller {
     /* Call validation...
     *  const hasError = this.validation.validate(props);
     *  if (hasError) throw new ValidationException(hasError);
-    *  this.logger.logDebug({ message: 'Params Validated' });
+    *  console.log({ message: 'Params Validated' });
     */
 
     /* Call usecases...
@@ -42,6 +42,6 @@ export class {{pascalCase feature}}Controller {
       });
     }
 
-    this.logger.logInfo({ message: 'socket event complete', data: props });
+
   }
 }

@@ -10,7 +10,7 @@ import {
 } from '@/domains/{{dashCase name}}/usecases/repos';
 import { {{pascalCase name}}NotFoundException } from '@/domains/{{dashCase name}}/usecases/exceptions';
 import { Update{{pascalCase name}}ByIdUsecase as UseCase } from '@/domains/{{dashCase name}}/usecases';
-import { pinoLoggerLocal } from '@/shared/infra/logs';
+
 
 const makeSut = () => {
   const get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository =
@@ -35,7 +35,7 @@ const makeSut = () => {
     get{{pascalCase name}}ByIdRepository,
     get{{pascalCase name}}ByNameRepository,
     update{{pascalCase name}}ByIdRepository,
-    pinoLoggerLocal
+
   );
 
   return {

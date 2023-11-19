@@ -10,7 +10,7 @@ import {
 import { {{pascalCase name}}AlreadyExistsException } from '@/domains/{{dashCase name}}/usecases/exceptions';
 import { Create{{pascalCase name}}Usecase as UseCase } from '@/domains/{{dashCase name}}/usecases';
 import { IUuidGenerator } from '@/shared/protocols';
-import { pinoLoggerLocal } from '@/shared/infra/logs';
+
 
 const makeSut = () => {
   const uuidGenerator: IUuidGenerator = createMock<IUuidGenerator>();
@@ -31,7 +31,7 @@ const makeSut = () => {
     get{{pascalCase name}}ByNameRepository,
     save{{pascalCase name}}Repository,
     uuidGenerator,
-    pinoLoggerLocal
+
   );
 
   return {

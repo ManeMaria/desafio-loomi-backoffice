@@ -19,7 +19,7 @@ export const env = {
   },
   databases: {
     postgres: {
-      url: `postgresql://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}?schema=public`,
+      url: process.env.DATABASE_URL,
     },
   },
   logs: {

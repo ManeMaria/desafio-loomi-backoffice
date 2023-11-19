@@ -10,7 +10,7 @@ export namespace ICountUsersByFilterRepository {
   export type Params = {
     name?: string;
     email?: string;
-    isAdmin?: boolean;
+    type?: string;
     enabled?: boolean;
     createdAt?: DateFilter;
     updatedAt?: DateFilter;

@@ -6,7 +6,6 @@ import {
   IDeleteUserByEmailInCloudRepository,
 } from '@/domains/user/usecases/repos';
 
-import { ILoggerLocal } from '@/shared/protocols';
 import { ValidationException } from '@/shared/helpers';
 import { Validation } from '@/shared/interface/validation/protocols';
 
@@ -18,31 +17,26 @@ export type DeleteUserByIdResponse = void;
 
 export class DeleteUserByIdController {
   private usecase: DeleteUserByIdUsecase;
-  private logger: ILoggerLocal;
 
   constructor(
     getUserByIdRepository: IGetUserByIdRepository,
     getUserByEmailInCloudRepository: IGetUserByEmailInCloudRepository,
     deleteUserByEmailInCloudRepository: IDeleteUserByEmailInCloudRepository,
     deleteUserByIdRepository: IDeleteUserByIdRepository,
-    private readonly validation: Validation,
-    logger: ILoggerLocal
+    private readonly validation: Validation
   ) {
     this.usecase = new DeleteUserByIdUsecase(
       getUserByIdRepository,
       getUserByEmailInCloudRepository,
       deleteUserByEmailInCloudRepository,
-      deleteUserByIdRepository,
-      logger
+      deleteUserByIdRepository
     );
-
-    this.logger = logger.child({ controller: 'delete-user-by-id' });
   }
 
   async execute(
     request: DeleteUserByIdRequest
   ): Promise<DeleteUserByIdResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: request });
+    console.log({ message: 'Request Received', data: request });
     const { id } = request;
 
     const hasError = this.validation.validate({ id });
@@ -51,10 +45,10 @@ export class DeleteUserByIdController {
       throw new ValidationException(hasError);
     }
 
-    this.logger.logDebug({ message: 'Params validated' });
+    console.log({ message: 'Params validated' });
 
     await this.usecase.execute(id);
 
-    this.logger.logDebug({ message: 'User deleted', data: { id } });
+    console.log({ message: 'User deleted', data: { id } });
   }
 }

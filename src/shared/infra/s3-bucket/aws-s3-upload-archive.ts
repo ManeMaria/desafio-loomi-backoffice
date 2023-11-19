@@ -4,12 +4,10 @@ import { s3Environments, IUploadArchive } from '@/shared/interface/s3-bucket';
 import { AwsS3Exception } from './aws-s3-exception';
 import { env } from '@/main/config';
 
-import { ILoggerLocal } from '@/shared/protocols';
-import { pinoLoggerLocal } from '../logs';
+
 
 export class AwsS3UploadArchive implements IUploadArchive {
   private readonly s3Instance: S3;
-  private logger: ILoggerLocal;
 
   constructor() {
     this.s3Instance = new aws.S3({
@@ -17,19 +15,17 @@ export class AwsS3UploadArchive implements IUploadArchive {
       signatureVersion: 'v4',
       ...(env.application.mode === 'local'
         ? {
-            credentials: {
-              accessKeyId: s3Environments.accessKeyId,
-              secretAccessKey: s3Environments.secretAccessKey,
-            },
-          }
+          credentials: {
+            accessKeyId: s3Environments.accessKeyId,
+            secretAccessKey: s3Environments.secretAccessKey,
+          },
+        }
         : {}),
     });
-
-    this.logger = pinoLoggerLocal;
   }
 
   async upload(params: IUploadArchive.Params): Promise<string> {
-    this.logger.logDebug({
+    console.log({
       message: 'AwsS3UploadArchive',
       params,
     });
@@ -45,7 +41,7 @@ export class AwsS3UploadArchive implements IUploadArchive {
       throw new AwsS3Exception(error, 'Upload Error');
     }
 
-    this.logger.logDebug({
+    console.log({
       message: 'AwsS3UploadArchive-Format-accepted',
       fileExtension,
     });
@@ -66,7 +62,7 @@ export class AwsS3UploadArchive implements IUploadArchive {
       ContentEncoding: file.encoding,
     };
 
-    this.logger.logDebug({
+    console.log({
       message: 'AwsS3UploadArchive-Upload-Params',
       uploadParams,
     });
@@ -77,7 +73,7 @@ export class AwsS3UploadArchive implements IUploadArchive {
           throw new AwsS3Exception(err, 'Upload Error');
         }
 
-        this.logger.logDebug({
+        console.log({
           message: 'AwsS3UploadArchive-Uploaded',
           uploadParams,
         });

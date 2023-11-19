@@ -17,7 +17,7 @@ import {
   serverError,
   unauthorized,
 } from '@/shared/interface/http/helpers';
-import { ILoggerLocal } from '@/shared/protocols';
+
 import { ValidationException } from '@/shared/helpers';
 import { CognitoException } from '@/shared/infra/cognito';
 import { Validation } from '@/shared/interface/validation/protocols';
@@ -28,29 +28,24 @@ export interface HttpGetAuthUserByTokenRequest {
 
 export class HttpGetAuthUserByTokenController implements HttpController {
   private controller: GetAuthUserByTokenController;
-  private logger: ILoggerLocal;
 
   constructor(
     getAuthUserByTokenInCloudGateway: IGetAuthUserByTokenInCloudGateway,
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     validation: Validation,
-    private readonly authUserRole: 'ADMIN' | 'USER',
-    logger: ILoggerLocal
+    private readonly authUserRole: 'ADMIN' | 'CLIENT'
   ) {
     this.controller = new GetAuthUserByTokenController(
       getAuthUserByTokenInCloudGateway,
       getAuthUserByEmailRepository,
-      validation,
-      logger
+      validation
     );
-
-    this.logger = logger.child({ httpController: 'get-auth-user-by-token' });
   }
 
   async handle(
     httpRequest: HttpGetAuthUserByTokenRequest
   ): Promise<HttpResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+    console.log({ message: 'Request Received', data: httpRequest });
 
     const { access_token: accessToken } = httpRequest;
 
@@ -59,16 +54,16 @@ export class HttpGetAuthUserByTokenController implements HttpController {
         token: accessToken,
       });
 
-      this.logger.logDebug({
+      console.log({
         message: 'Auth User found by token',
         data: authUser,
       });
 
-      if (this.authUserRole === 'ADMIN' && !authUser.is_admin) {
+      if (!this.authUserRole.includes(authUser.type)) {
         return forbidden();
       }
 
-      this.logger.logDebug({
+      console.log({
         message: 'Auth User authorized',
         data: authUser,
       });

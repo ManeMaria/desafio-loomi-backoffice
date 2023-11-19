@@ -5,27 +5,27 @@ import {
   RequiredFieldsValidation,
   ValidationComposite,
   NameValidation,
-  BooleanValidation,
   StringLengthValidation,
+  EnumFieldValidation,
 } from '@/shared/interface/validation/validators';
 
 import {
   ValidatorEmailAdapter,
   ValidatorNameAdapter,
-  ValidatorBooleanAdapter,
   ValidatorStringLengthAdapter,
 } from '@/shared/infra/validators';
+import { UserTypeEnum } from '@/domains/user/entities';
 
 const validations: Validation[] = [];
 
-for (const field of ['name', 'email', 'isAdmin']) {
+for (const field of ['name', 'email', 'type']) {
   validations.push(new RequiredFieldsValidation(field));
 }
 
 validations.push(new EmailValidation('email', new ValidatorEmailAdapter()));
 validations.push(new NameValidation('name', new ValidatorNameAdapter()));
 validations.push(
-  new BooleanValidation('isAdmin', new ValidatorBooleanAdapter())
+  new EnumFieldValidation('type', Object.values(UserTypeEnum))
 );
 validations.push(
   new StringLengthValidation('name', new ValidatorStringLengthAdapter(50))

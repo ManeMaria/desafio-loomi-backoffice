@@ -1,6 +1,6 @@
 export type UserDefaultPresenter = {
   id: string;
-  is_admin?: boolean;
+  type: string;
   name: string;
   email: string;
   created_at?: Date;

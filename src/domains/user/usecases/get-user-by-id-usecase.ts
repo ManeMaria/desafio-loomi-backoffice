@@ -5,8 +5,6 @@ import {
   IGetUserByEmailInCloudRepository,
 } from '@/domains/user/usecases/repos';
 
-import { ILoggerLocal } from '@/shared/protocols';
-
 export interface IGetUserbyIdUsecase {
   execute(id: IGetUserbyIdUsecase.Params): Promise<IGetUserbyIdUsecase.Result>;
 }
@@ -17,26 +15,21 @@ export namespace IGetUserbyIdUsecase {
 }
 
 export class GetUserByIdUsecase implements IGetUserbyIdUsecase {
-  private logger: ILoggerLocal;
-
   constructor(
     private readonly getUserByIdRepository: IGetUserByIdRepository,
-    private readonly getUserByEmailInCloudRepository: IGetUserByEmailInCloudRepository,
-    logger: ILoggerLocal
-  ) {
-    this.logger = logger.child({ usecase: 'get-user-by-id' });
-  }
+    private readonly getUserByEmailInCloudRepository: IGetUserByEmailInCloudRepository
+  ) {}
 
   async execute(
     id: IGetUserbyIdUsecase.Params
   ): Promise<IGetUserbyIdUsecase.Result> {
-    this.logger.logDebug({ message: 'Request Received', data: { id } });
+    console.log({ message: 'Request Received', data: { id } });
 
     const userExists = await this.getUserByIdRepository.getById(id);
 
     if (!userExists) return null;
 
-    this.logger.logDebug({
+    console.log({
       message: 'User found in database',
       data: userExists,
     });
@@ -50,12 +43,12 @@ export class GetUserByIdUsecase implements IGetUserbyIdUsecase {
       throw new UserNotFoundException({ email });
     }
 
-    this.logger.logDebug({
+    console.log({
       message: 'User found in cloud',
       data: userExistsInCloud,
     });
 
-    this.logger.logDebug({
+    console.log({
       message: 'User found',
       data: userExists,
     });

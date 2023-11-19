@@ -5,7 +5,6 @@ import {
 } from '@/domains/user/usecases/repos';
 
 import { DateFilter, OrderByFilter, Pagination } from '@/shared/helpers';
-import { ILoggerLocal } from '@/shared/protocols';
 
 export type UserFilters = {
   filters: {
@@ -33,20 +32,15 @@ export namespace IGetUsersByFilterUsecase {
 }
 
 export class GetUsersByFilterUsecase implements IGetUsersByFilterUsecase {
-  private logger: ILoggerLocal;
-
   constructor(
     private readonly getUsersByFilterRepository: IGetUsersByFilterRepository,
-    private readonly countUsersByFilterRepository: ICountUsersByFilterRepository,
-    logger: ILoggerLocal
-  ) {
-    this.logger = logger.child({ usecase: 'get-users-by-filter' });
-  }
+    private readonly countUsersByFilterRepository: ICountUsersByFilterRepository
+  ) {}
 
   async execute(
     filterParams: IGetUsersByFilterUsecase.Params
   ): Promise<IGetUsersByFilterUsecase.Result> {
-    this.logger.logDebug({ message: 'Request received', data: filterParams });
+    console.log({ message: 'Request received', data: filterParams });
 
     const { count, ...restFilterParams } = filterParams;
     const { filters } = restFilterParams;
@@ -61,7 +55,7 @@ export class GetUsersByFilterUsecase implements IGetUsersByFilterUsecase {
 
     const users = await this.getUsersByFilterRepository.get(restFilterParams);
 
-    this.logger.logDebug({ message: 'Users found', data: { totalUsers } });
+    console.log({ message: 'Users found', data: { totalUsers } });
 
     return {
       users,

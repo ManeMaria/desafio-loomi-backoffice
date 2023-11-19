@@ -22,29 +22,28 @@ export type Create{{pascalCase name}}Response = {{pascalCase name}}DefaultPresen
 
 export class Create{{pascalCase name}}Controller {
   private usecase: Create{{pascalCase name}}Usecase;
-  private logger: ILoggerLocal;
+
 
   constructor(
     get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
     save{{pascalCase name}}Repository: ISave{{pascalCase name}}Repository,
     uuidGenerator: IUuidGenerator,
     private readonly validation: Validation,
-    logger: ILoggerLocal,
+
   ) {
     this.usecase = new Create{{pascalCase name}}Usecase(
       get{{pascalCase name}}ByNameRepository,
       save{{pascalCase name}}Repository,
       uuidGenerator,
-      logger
     );
 
-    this.logger = logger.child({ controller: 'create-{{dashCase name}}' });
+
   }
 
   async execute(
     request: Create{{pascalCase name}}Request
   ): Promise<Create{{pascalCase name}}Response> {
-    this.logger.logDebug({ message: 'Request received', data: request });
+    console.log({ message: 'Request received', data: request });
 
     const { name } = request;
 
@@ -56,14 +55,14 @@ export class Create{{pascalCase name}}Controller {
       throw new ValidationException(hasError);
     }
 
-    this.logger.logDebug({ message: 'Params validated' });
+    console.log({ message: 'Params validated' });
 
     const {{camelCase name}}Created = await this.usecase.execute({ name });
 
     const {{camelCase name}}CreatedPresenter =
       {{pascalCase name}}Transformers.generateDefaultPresenter({{camelCase name}}Created);
 
-    this.logger.logDebug({
+    console.log({
       message: '{{pascalCase name}} created',
       data: {{camelCase name}}CreatedPresenter,
     });

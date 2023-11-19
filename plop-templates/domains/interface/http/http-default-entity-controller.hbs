@@ -19,33 +19,33 @@ export interface Http{{pascalCase feature}}Request {
 
 export class Http{{pascalCase feature}}Controller implements HttpController {
   private controller: {{pascalCase feature}}Controller;
-  private logger: ILoggerLocal;
+
 
   constructor(
     {{camelCase feature}}Repository: I{{pascalCase feature}}Repository,
     uuidGenerator: IUuidGenerator,
     validation: Validation,
-    logger: ILoggerLocal
+
   ) {
     this.controller = new {{pascalCase feature}}Controller(
       {{camelCase feature}}Repository,
       uuidGenerator,
       validation,
-      logger
+
     );
 
-    this.logger = logger.child({ httpController: '{{dashCase feature}}'});
+
   }
 
   async handle(httpRequest: Http{{pascalCase feature}}Request): Promise<HttpResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+    console.log({ message: 'Request Received', data: httpRequest });
 
     const { } = httpRequest;
 
     try {
       const {{camelCase entity}}Made = await this.controller.execute({ });
 
-      this.logger.logDebug({
+      console.log({
         message: '{{pascalCase entity}} made',
         data: {{camelCase entity}}Made,
       });

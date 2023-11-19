@@ -9,7 +9,7 @@ import {
   HttpDelete{{pascalCase name}}ByIdController,
 } from '@/domains/{{dashCase name}}/interface/http';
 
-import { pinoLoggerLocal } from '@/shared/infra/logs';
+
 
 export const makeHttpDelete{{pascalCase name}}ByIdController =
   (): HttpDelete{{pascalCase name}}ByIdController => {
@@ -17,12 +17,12 @@ export const makeHttpDelete{{pascalCase name}}ByIdController =
     const delete{{pascalCase name}}ByIdRepository = new PrismaDelete{{pascalCase name}}ByIdRepository();
 
     const validation = makeDelete{{pascalCase name}}ByIdValidation();
-    const logger = pinoLoggerLocal;
+
 
     return new HttpDelete{{pascalCase name}}ByIdController(
       get{{pascalCase name}}ByIdRepository,
       delete{{pascalCase name}}ByIdRepository,
       validation,
-      logger,
+
     );
   };

@@ -10,7 +10,6 @@ import {
   IFirstLoginInCloudGateway,
   ILoginInCloudGateway,
 } from '@/domains/auth/usecases/gateways';
-import { ILoggerLocal } from '@/shared/protocols';
 
 export interface IFirstLoginUsecase {
   execute(
@@ -29,22 +28,17 @@ export namespace IFirstLoginUsecase {
 }
 
 export class FirstLoginUsecase implements IFirstLoginUsecase {
-  private logger: ILoggerLocal;
-
   constructor(
     private readonly getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     private readonly getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     private readonly firstLoginInCloudGateway: IFirstLoginInCloudGateway,
-    private readonly loginInCloudGateway: ILoginInCloudGateway,
-    logger: ILoggerLocal
-  ) {
-    this.logger = logger.child({ usecase: 'first-login' });
-  }
+    private readonly loginInCloudGateway: ILoginInCloudGateway
+  ) {}
 
   async execute(
     firstLoginParams: IFirstLoginUsecase.Params
   ): Promise<IFirstLoginUsecase.Response> {
-    this.logger.logDebug({
+    console.log({
       message: 'Request Received',
       data: firstLoginParams,
     });
@@ -57,7 +51,7 @@ export class FirstLoginUsecase implements IFirstLoginUsecase {
       throw new AuthUserNotFoundException({ email });
     }
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth User found',
       data: authUser,
     });
@@ -70,7 +64,7 @@ export class FirstLoginUsecase implements IFirstLoginUsecase {
       throw new AuthUserNotFoundException({ email });
     }
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth User found in cloud',
       data: cloudAuthUser,
     });
@@ -92,7 +86,7 @@ export class FirstLoginUsecase implements IFirstLoginUsecase {
       password: newPassword,
     });
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth User made first login',
       data: authUser,
     });

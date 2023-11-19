@@ -24,28 +24,28 @@ export interface HttpCreate{{pascalCase name}}Request {
 
 export class HttpCreate{{pascalCase name}}Controller implements HttpController {
   private controller: Create{{pascalCase name}}Controller;
-  private logger: ILoggerLocal;
+
 
   constructor(
     get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
     save{{pascalCase name}}Repository: ISave{{pascalCase name}}Repository,
     uuidGenerator: IUuidGenerator,
     validation: Validation,
-    logger: ILoggerLocal,
+
   ) {
     this.controller = new Create{{pascalCase name}}Controller(
       get{{pascalCase name}}ByNameRepository,
       save{{pascalCase name}}Repository,
       uuidGenerator,
       validation,
-      logger,
+
     );
 
-    this.logger = logger.child({ httpController: 'create-{{dashCase name}}' });
+
   }
 
   async handle(httpRequest: HttpCreate{{pascalCase name}}Request): Promise<HttpResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+    console.log({ message: 'Request Received', data: httpRequest });
 
     const { name } = httpRequest;
 
@@ -54,7 +54,7 @@ export class HttpCreate{{pascalCase name}}Controller implements HttpController {
         name,
       });
 
-      this.logger.logDebug({
+      console.log({
         message: '{{pascalCase name}} created',
         data: {{camelCase name}}Created,
       });

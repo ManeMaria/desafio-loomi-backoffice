@@ -8,7 +8,6 @@ import {
   UserTransformers,
 } from '@/domains/user/interface/presenters';
 
-import { ILoggerLocal } from '@/shared/protocols';
 import { ValidationException } from '@/shared/helpers';
 import { Validation } from '@/shared/interface/validation/protocols';
 
@@ -20,25 +19,20 @@ export type GetUserByIdResponse = UserDefaultPresenter | null;
 
 export class GetUserByIdController {
   private usecase: GetUserByIdUsecase;
-  private logger: ILoggerLocal;
 
   constructor(
     getUserByIdRepository: IGetUserByIdRepository,
     getUserByEmailInCloudRepository: IGetUserByEmailInCloudRepository,
-    private readonly validation: Validation,
-    logger: ILoggerLocal
+    private readonly validation: Validation
   ) {
     this.usecase = new GetUserByIdUsecase(
       getUserByIdRepository,
-      getUserByEmailInCloudRepository,
-      logger
+      getUserByEmailInCloudRepository
     );
-
-    this.logger = logger.child({ controller: 'get-user-by-id' });
   }
 
   async execute(request: GetUserByIdRequest): Promise<GetUserByIdResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: request });
+    console.log({ message: 'Request Received', data: request });
 
     const { id } = request;
 
@@ -48,11 +42,11 @@ export class GetUserByIdController {
       throw new ValidationException(hasErrors);
     }
 
-    this.logger.logDebug({ message: 'Params Validated' });
+    console.log({ message: 'Params Validated' });
 
     const user = await this.usecase.execute(id);
 
-    this.logger.logDebug({ message: 'User found', data: user });
+    console.log({ message: 'User found', data: user });
 
     if (!user) {
       return null;

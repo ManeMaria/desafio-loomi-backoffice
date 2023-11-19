@@ -9,8 +9,6 @@ import {
 import { HttpDeleteUserByIdController } from '@/domains/user/interface/http';
 import { makeDeleteUserByIdValidation } from '@/domains/user/interface/validation';
 
-import { pinoLoggerLocal } from '@/shared/infra/logs';
-
 export const makeHttpDeleteUserByIdController =
   (): HttpDeleteUserByIdController => {
     const getUserByIdRepository = new PrismaGetUserByIdRepository();
@@ -20,14 +18,12 @@ export const makeHttpDeleteUserByIdController =
       new CognitoDeleteUserByEmailInCloudRepository();
     const deleteUserByIdRepository = new PrismaDeleteUserByIdRepository();
     const validation = makeDeleteUserByIdValidation();
-    const logger = pinoLoggerLocal;
 
     return new HttpDeleteUserByIdController(
       getUserByIdRepository,
       getUserByEmailInCloudRepository,
       deleteUserByEmailInCloudRepository,
       deleteUserByIdRepository,
-      validation,
-      logger
+      validation
     );
   };

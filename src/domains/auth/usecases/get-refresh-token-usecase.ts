@@ -1,8 +1,6 @@
 import { Access } from '@/domains/auth/entities';
 import { IGetRefreshTokenInCloudGateway } from '@/domains/auth/usecases/gateways';
 
-import { ILoggerLocal } from '@/shared/protocols';
-
 export interface IGetRefreshTokenUsecase {
   execute(
     params: IGetRefreshTokenUsecase.Params
@@ -15,19 +13,14 @@ export namespace IGetRefreshTokenUsecase {
 }
 
 export class GetRefreshTokenUsecase implements IGetRefreshTokenUsecase {
-  private readonly logger: ILoggerLocal;
-
   constructor(
-    private readonly getRefreshTokenInCloudGateway: IGetRefreshTokenInCloudGateway,
-    logger: ILoggerLocal
-  ) {
-    this.logger = logger.child({ usecase: 'get-refresh-token' });
-  }
+    private readonly getRefreshTokenInCloudGateway: IGetRefreshTokenInCloudGateway
+  ) {}
 
   async execute(
     params: IGetRefreshTokenUsecase.Params
   ): Promise<IGetRefreshTokenUsecase.Response> {
-    this.logger.logDebug({ message: 'Request Received', data: params });
+    console.log({ message: 'Request Received', data: params });
 
     const { refreshToken } = params;
 
@@ -36,7 +29,7 @@ export class GetRefreshTokenUsecase implements IGetRefreshTokenUsecase {
 
     const access = new Access({ accessToken, refreshToken: newRefreshToken });
 
-    this.logger.logDebug({ message: 'Refresh Token getted', data: access });
+    console.log({ message: 'Refresh Token getted', data: access });
 
     return access;
   }

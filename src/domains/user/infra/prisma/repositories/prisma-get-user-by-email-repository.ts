@@ -1,14 +1,13 @@
 import { User as UserModel, PrismaClient } from '@prisma/client';
 
 import { IGetUserByEmailRepository } from '@/domains/user/usecases/repos';
-import { User } from '@/domains/user/entities';
+import { User, } from '@/domains/user/entities';
 
 import { convertNullToUndefined } from '@/shared/helpers';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
 export class PrismaGetUserByEmailRepository
-  implements IGetUserByEmailRepository
-{
+  implements IGetUserByEmailRepository {
   private prismaConnection: PrismaClient;
 
   constructor() {
@@ -26,6 +25,8 @@ export class PrismaGetUserByEmailRepository
       if (!userFound) {
         return null;
       }
+
+
 
       const user = new User(convertNullToUndefined<UserModel>(userFound));
 

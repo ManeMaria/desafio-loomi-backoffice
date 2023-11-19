@@ -9,6 +9,7 @@ import {
   defaultResponses,
   SwaggerResponse,
 } from '@/shared/infra/swagger/helpers';
+import { UserTypeEnum } from '@/domains/user/entities';
 
 export const userTag = 'Users';
 
@@ -16,7 +17,7 @@ const userObject = SwaggerTypes.object(true, [
   ['id', SwaggerTypes.uuid(true)],
   ['name', SwaggerTypes.string(true)],
   ['email', SwaggerTypes.email(true)],
-  ['is_admin', SwaggerTypes.boolean(true)],
+  ['type', SwaggerTypes.enum(true, Object.values(UserTypeEnum))],
   ['enabled', SwaggerTypes.boolean(true)],
   ['created_at', SwaggerTypes.dateTime(true)],
   ['updated_at', SwaggerTypes.dateTime(true)],
@@ -26,7 +27,7 @@ export const userSchema = SwaggerSchemas.create('User', [
   ['id', SwaggerTypes.uuid(true)],
   ['name', SwaggerTypes.string(true)],
   ['email', SwaggerTypes.email(true)],
-  ['is_admin', SwaggerTypes.boolean(true)],
+  ['type', SwaggerTypes.enum(true, Object.values(UserTypeEnum))],
   ['enabled', SwaggerTypes.boolean(true)],
   ['created_at', SwaggerTypes.dateTime(true)],
   ['updated_at', SwaggerTypes.dateTime(true)],
@@ -42,7 +43,7 @@ export const userPaths = {
         ...SwaggerQuery.params([
           ['name', SwaggerTypes.string()],
           ['email', SwaggerTypes.string()],
-          ['is_admin', SwaggerTypes.boolean()],
+          ['type', SwaggerTypes.enum(true, Object.values(UserTypeEnum))],
           ['enabled', SwaggerTypes.boolean()],
         ]),
         ...defaultFilterParams,
@@ -68,7 +69,7 @@ export const userPaths = {
         content: SwaggerContents.applicationJson([
           ['name', SwaggerTypes.string(true)],
           ['email', SwaggerTypes.email(true)],
-          ['is_admin', SwaggerTypes.boolean(true)],
+          ['type', SwaggerTypes.enum(true, Object.values(UserTypeEnum))],
         ]),
       },
       security,
@@ -105,7 +106,7 @@ export const userPaths = {
       requestBody: {
         content: SwaggerContents.applicationJson([
           ['name', SwaggerTypes.string()],
-          ['is_admin', SwaggerTypes.boolean()],
+          ['type', SwaggerTypes.enum(true, Object.values(UserTypeEnum))],
           ['enabled', SwaggerTypes.boolean()],
         ]),
       },

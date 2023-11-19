@@ -8,7 +8,6 @@ import {
   UserTransformers,
 } from '@/domains/user/interface/presenters';
 
-import { ILoggerLocal } from '@/shared/protocols';
 import { ValidationException } from '@/shared/helpers';
 import { Validation } from '@/shared/interface/validation/protocols';
 
@@ -17,7 +16,7 @@ export interface UpdateUserByIdRequest {
   paramsToUpdate: {
     name?: string;
     email?: string;
-    isAdmin?: boolean;
+    type?: string;
     enabled?: boolean;
   };
 }
@@ -26,37 +25,32 @@ export type UpdateUserByIdResponse = UserDefaultPresenter;
 
 export class UpdateUserByIdController {
   private usecase: UpdateUserByIdUsecase;
-  private logger: ILoggerLocal;
 
   constructor(
     getUserByIdRepository: IGetUserByIdRepository,
     updateUserRepository: IUpdateUserRepository,
-    private readonly validation: Validation,
-    logger: ILoggerLocal
+    private readonly validation: Validation
   ) {
     this.usecase = new UpdateUserByIdUsecase(
       getUserByIdRepository,
-      updateUserRepository,
-      logger
+      updateUserRepository
     );
-
-    this.logger = logger.child({ controller: 'update-user-by-id' });
   }
 
   async execute(
     request: UpdateUserByIdRequest
   ): Promise<UpdateUserByIdResponse> {
-    this.logger.logDebug({ message: 'Request received', data: request });
+    console.log({ message: 'Request received', data: request });
 
     const { id, paramsToUpdate } = request;
 
-    const { name, isAdmin, enabled, email } = paramsToUpdate;
+    const { name, type, enabled, email } = paramsToUpdate;
 
     const hasErrors = this.validation.validate({
       id,
       name,
       email,
-      isAdmin,
+      type,
       enabled,
     });
 
@@ -64,11 +58,11 @@ export class UpdateUserByIdController {
       throw new ValidationException(hasErrors);
     }
 
-    this.logger.logDebug({ message: 'Params validated' });
+    console.log({ message: 'Params validated' });
 
     const userUpdated = await this.usecase.execute({ id, paramsToUpdate });
 
-    this.logger.logDebug({ message: 'User updated', data: userUpdated });
+    console.log({ message: 'User updated', data: userUpdated });
 
     const userPresenter =
       UserTransformers.generateDefaultTransformer(userUpdated);

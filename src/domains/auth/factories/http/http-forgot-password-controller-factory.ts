@@ -6,8 +6,6 @@ import {
 import { makeForgotPasswordValidation } from '@/domains/auth/interface/validation';
 import { HttpForgotPasswordController } from '@/domains/auth/interface/http';
 
-import { pinoLoggerLocal } from '@/shared/infra/logs';
-
 export const makeHttpForgotPasswordController =
   (): HttpForgotPasswordController => {
     const getAuthUserByEmailRepository =
@@ -17,13 +15,11 @@ export const makeHttpForgotPasswordController =
     const forgotPasswordInCloudGateway =
       new CognitoForgotPasswordInCloudGateway();
     const validation = makeForgotPasswordValidation();
-    const logger = pinoLoggerLocal;
 
     return new HttpForgotPasswordController(
       getAuthUserByEmailRepository,
       getAuthUserByEmailInCloudGateway,
       forgotPasswordInCloudGateway,
-      validation,
-      logger
+      validation
     );
   };

@@ -14,7 +14,7 @@ import {
   HttpController,
   HttpResponse,
 } from '@/shared/interface/http/protocols';
-import { ILoggerLocal } from '@/shared/protocols';
+
 import { ValidationException } from '@/shared/helpers';
 import { CognitoException } from '@/shared/infra/cognito';
 import { Validation } from '@/shared/interface/validation/protocols';
@@ -28,30 +28,25 @@ export interface HttpFirstLoginRequest {
 
 export class HttpFirstLoginController implements HttpController {
   private controller: FirstLoginController;
-  private logger: ILoggerLocal;
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     firstLoginInCloudGateway: IFirstLoginInCloudGateway,
     loginInCloudGateway: ILoginInCloudGateway,
-    validation: Validation,
-    logger: ILoggerLocal
+    validation: Validation
   ) {
     this.controller = new FirstLoginController(
       getAuthUserByEmailRepository,
       getAuthUserByEmailInCloudGateway,
       firstLoginInCloudGateway,
       loginInCloudGateway,
-      validation,
-      logger
+      validation
     );
-
-    this.logger = logger.child({ httpController: 'first-login' });
   }
 
   async handle(httpRequest: HttpFirstLoginRequest): Promise<HttpResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+    console.log({ message: 'Request Received', data: httpRequest });
 
     const {
       email,
@@ -69,7 +64,7 @@ export class HttpFirstLoginController implements HttpController {
         temporaryPassword,
       });
 
-      this.logger.logDebug({
+      console.log({
         message: 'Auth User made first login',
         data: authUser,
       });

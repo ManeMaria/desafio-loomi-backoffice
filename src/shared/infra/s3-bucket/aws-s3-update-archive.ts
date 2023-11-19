@@ -6,22 +6,19 @@ import {
   AwsS3Exception,
 } from '@/shared/infra/s3-bucket';
 
-import { ILoggerLocal } from '@/shared/protocols';
-import { pinoLoggerLocal } from '../logs';
+
 
 export class AwsS3FileUpdateHandler implements IFileUpdateHandler {
   private awsS3ArchiveUploader: AwsS3UploadArchive;
   private awsS3ArchiveEraser: AwsS3DeleteArchive;
-  private logger: ILoggerLocal;
 
   constructor() {
     this.awsS3ArchiveUploader = new AwsS3UploadArchive();
     this.awsS3ArchiveEraser = new AwsS3DeleteArchive();
-    this.logger = pinoLoggerLocal;
   }
 
   async updateFile(params: IFileUpdateHandler.Params): Promise<string> {
-    this.logger.logDebug({
+    console.log({
       message: 'AwsS3UploadileHandler',
       params,
     });
@@ -32,7 +29,7 @@ export class AwsS3FileUpdateHandler implements IFileUpdateHandler {
       file: newFile,
     });
 
-    this.logger.logDebug({
+    console.log({
       message: 'File uploaded',
       newFileUrl,
     });
@@ -43,14 +40,14 @@ export class AwsS3FileUpdateHandler implements IFileUpdateHandler {
           path: previousFileURL,
         });
 
-        this.logger.logDebug({
+        console.log({
           message: 'Previus file deleted',
           previousFileURL,
         });
 
         return newFileUrl;
       } catch (error) {
-        this.logger.logDebug({
+        console.log({
           message: 'Something wrong with AWS services',
           error,
         });

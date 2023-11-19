@@ -15,7 +15,7 @@ import {
   HttpController,
   HttpResponse,
 } from '@/shared/interface/http/protocols';
-import { ILoggerLocal } from '@/shared/protocols';
+
 import { ValidationException } from '@/shared/helpers';
 import { Validation } from '@/shared/interface/validation/protocols';
 
@@ -23,41 +23,36 @@ export interface HttpUpdateUserByIdRequest {
   id: string;
   name?: string;
   email?: string;
-  is_admin?: boolean;
+  type?: string;
   enabled?: boolean;
 }
 
 export class HttpUpdateUserByIdController implements HttpController {
   private controller: UpdateUserByIdController;
-  private logger: ILoggerLocal;
 
   constructor(
     getUserByIdRepository: IGetUserByIdRepository,
     updateUserRepository: IUpdateUserRepository,
-    validation: Validation,
-    logger: ILoggerLocal
+    validation: Validation
   ) {
     this.controller = new UpdateUserByIdController(
       getUserByIdRepository,
       updateUserRepository,
-      validation,
-      logger
+      validation
     );
-
-    this.logger = logger.child({ httpController: 'update-user-by-id' });
   }
 
   async handle(httpRequest: HttpUpdateUserByIdRequest): Promise<HttpResponse> {
-    this.logger.logDebug({ message: 'Request received', data: httpRequest });
+    console.log({ message: 'Request received', data: httpRequest });
 
-    const { id, name, is_admin: isAdmin, enabled, email } = httpRequest;
+    const { id, name, type, enabled, email } = httpRequest;
 
     const request = {
       id,
       paramsToUpdate: {
         name,
         email,
-        isAdmin,
+        type,
         enabled,
       },
     };
@@ -65,7 +60,7 @@ export class HttpUpdateUserByIdController implements HttpController {
     try {
       const userUpdated = await this.controller.execute(request);
 
-      this.logger.logDebug({ message: 'User updated', data: userUpdated });
+      console.log({ message: 'User updated', data: userUpdated });
 
       return ok(userUpdated);
     } catch (error) {

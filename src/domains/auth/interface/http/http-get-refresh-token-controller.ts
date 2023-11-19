@@ -5,7 +5,7 @@ import {
   HttpController,
   HttpResponse,
 } from '@/shared/interface/http/protocols';
-import { ILoggerLocal } from '@/shared/protocols';
+
 import { ValidationException } from '@/shared/helpers';
 import { CognitoException } from '@/shared/infra/cognito';
 import { Validation } from '@/shared/interface/validation/protocols';
@@ -17,24 +17,19 @@ export interface HttpGetRefreshTokenRequest {
 
 export class HttpGetRefreshTokenController implements HttpController {
   private controller: GetRefreshTokenController;
-  private logger: ILoggerLocal;
 
   constructor(
     getRefreshTokenInCloudGateway: IGetRefreshTokenInCloudGateway,
-    validation: Validation,
-    logger: ILoggerLocal
+    validation: Validation
   ) {
     this.controller = new GetRefreshTokenController(
       getRefreshTokenInCloudGateway,
-      validation,
-      logger
+      validation
     );
-
-    this.logger = logger.child({ httpController: 'get-refresh-token' });
   }
 
   async handle(httpRequest: HttpGetRefreshTokenRequest): Promise<HttpResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+    console.log({ message: 'Request Received', data: httpRequest });
 
     const { refresh_token: refreshToken } = httpRequest;
 
@@ -44,7 +39,7 @@ export class HttpGetRefreshTokenController implements HttpController {
           refreshToken,
         });
 
-      this.logger.logDebug({ message: 'Token getted by refresh' });
+      console.log({ message: 'Token getted by refresh' });
 
       return ok({ accessToken, refreshToken: newRefreshToken });
     } catch (error) {

@@ -7,12 +7,14 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "node-leap",
+      "name": "back-office",
       "program": "${workspaceFolder}/src/main/server.ts",
       "preLaunchTask": "npm: build",
       "sourceMaps": true,
       "smartStep": true,
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ]
     }
   ]
 }

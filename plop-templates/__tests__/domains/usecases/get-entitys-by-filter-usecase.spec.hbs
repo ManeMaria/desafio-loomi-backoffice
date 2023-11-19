@@ -8,7 +8,7 @@ import {
   ICount{{pascalCase name}}sByFilterRepository,
 } from '@/domains/{{dashCase name}}/usecases/repos';
 import { Get{{pascalCase name}}sByFilterUsecase as UseCase } from '@/domains/{{dashCase name}}/usecases';
-import { pinoLoggerLocal } from '@/shared/infra/logs';
+
 import { OrderByFilter, Pagination } from '@/shared/helpers';
 
 const makeSut = () => {
@@ -27,7 +27,7 @@ const makeSut = () => {
   const sut = new UseCase(
     get{{pascalCase name}}sByFilterRepository,
     count{{pascalCase name}}ByFilterRepository,
-    pinoLoggerLocal
+
   );
 
   return {

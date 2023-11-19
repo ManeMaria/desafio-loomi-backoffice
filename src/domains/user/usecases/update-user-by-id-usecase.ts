@@ -1,11 +1,9 @@
-import { User } from '@/domains/user/entities';
+import { User, UserTypeEnum } from '@/domains/user/entities';
 import { UserNotFoundException } from '@/domains/user/usecases/exceptions';
 import {
   IGetUserByIdRepository,
   IUpdateUserRepository,
 } from '@/domains/user/usecases/repos';
-
-import { ILoggerLocal } from '@/shared/protocols';
 
 export interface IUpdateUserByIdUsecase {
   execute(
@@ -19,7 +17,7 @@ export namespace IUpdateUserByIdUsecase {
     paramsToUpdate: {
       name?: string;
       email?: string;
-      isAdmin?: boolean;
+      type?: string;
       enabled?: boolean;
     };
   };
@@ -27,20 +25,15 @@ export namespace IUpdateUserByIdUsecase {
 }
 
 export class UpdateUserByIdUsecase implements IUpdateUserByIdUsecase {
-  private logger: ILoggerLocal;
-
   constructor(
     private readonly getUserByIdRepository: IGetUserByIdRepository,
-    private readonly updateUserRepository: IUpdateUserRepository,
-    logger: ILoggerLocal
-  ) {
-    this.logger = logger.child({ usecase: 'update-user-by-id' });
-  }
+    private readonly updateUserRepository: IUpdateUserRepository
+  ) { }
 
   async execute(
     updateParams: IUpdateUserByIdUsecase.Params
   ): Promise<IUpdateUserByIdUsecase.Result> {
-    this.logger.logDebug({ message: 'Request received', data: updateParams });
+    console.log({ message: 'Request received', data: updateParams });
 
     const { id, paramsToUpdate } = updateParams;
 
@@ -50,15 +43,16 @@ export class UpdateUserByIdUsecase implements IUpdateUserByIdUsecase {
       throw new UserNotFoundException({ id });
     }
 
-    this.logger.logDebug({ message: 'User found', data: userExists });
+    console.log({ message: 'User found', data: userExists });
 
-    const userToUpdate = new User({ ...userExists, ...paramsToUpdate });
+
+    const userToUpdate = new User({ ...userExists, ...paramsToUpdate, ...(paramsToUpdate.type && { type: paramsToUpdate.type }) as unknown as { type: UserTypeEnum } });
 
     const userUpdated = await this.updateUserRepository.update({
       ...userToUpdate,
     });
 
-    this.logger.logDebug({ message: 'User updated', data: userUpdated });
+    console.log({ message: 'User updated', data: userUpdated });
 
     return userUpdated;
   }

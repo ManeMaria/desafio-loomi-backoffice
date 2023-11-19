@@ -6,8 +6,6 @@ import {
   IDeleteUserByIdRepository,
 } from '@/domains/user/usecases/repos';
 
-import { ILoggerLocal } from '@/shared/protocols';
-
 export interface IDeleteUserByIdUsecase {
   execute(
     id: IDeleteUserByIdUsecase.Params
@@ -20,22 +18,17 @@ export namespace IDeleteUserByIdUsecase {
 }
 
 export class DeleteUserByIdUsecase implements IDeleteUserByIdUsecase {
-  private logger: ILoggerLocal;
-
   constructor(
     private readonly getUserByIdRepository: IGetUserByIdRepository,
     private readonly getUserByEmailInCloudRepository: IGetUserByEmailInCloudRepository,
     private readonly deleteUserByEmailInCloudRepository: IDeleteUserByEmailInCloudRepository,
-    private readonly deleteUserByIdRepository: IDeleteUserByIdRepository,
-    logger: ILoggerLocal
-  ) {
-    this.logger = logger.child({ usecase: 'delete-user-by-id' });
-  }
+    private readonly deleteUserByIdRepository: IDeleteUserByIdRepository
+  ) {}
 
   async execute(
     id: IDeleteUserByIdUsecase.Params
   ): Promise<IDeleteUserByIdUsecase.Result> {
-    this.logger.logDebug({ message: 'Request Received', data: { id } });
+    console.log({ message: 'Request Received', data: { id } });
 
     const userExists = await this.getUserByIdRepository.getById(id);
 
@@ -43,7 +36,7 @@ export class DeleteUserByIdUsecase implements IDeleteUserByIdUsecase {
       throw new UserNotFoundException({ id });
     }
 
-    this.logger.logDebug({
+    console.log({
       message: 'User found in database',
       data: userExists,
     });
@@ -57,21 +50,21 @@ export class DeleteUserByIdUsecase implements IDeleteUserByIdUsecase {
       throw new UserNotFoundException({ email });
     }
 
-    this.logger.logDebug({
+    console.log({
       message: 'User found in cloud',
       data: userExistsInCloud,
     });
 
     await this.deleteUserByEmailInCloudRepository.delete(email);
 
-    this.logger.logDebug({
+    console.log({
       message: 'User deleted from cloud',
       data: { email },
     });
 
     await this.deleteUserByIdRepository.delete(id);
 
-    this.logger.logDebug({
+    console.log({
       message: 'User delete from database',
       data: { id },
     });

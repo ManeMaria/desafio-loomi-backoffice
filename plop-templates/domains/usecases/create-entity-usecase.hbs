@@ -26,28 +26,28 @@ export namespace ICreate{{pascalCase name}}Usecase {
 }
 
 export class Create{{pascalCase name}}Usecase implements ICreate{{pascalCase name}}Usecase {
-  private logger: ILoggerLocal;
+
 
   constructor(
     private readonly get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
     private readonly save{{pascalCase name}}Repository: ISave{{pascalCase name}}Repository,
     private readonly uuidGenerator: IUuidGenerator,
-    logger: ILoggerLocal
+
   ) {
-    this.logger = logger.child({ usecase: 'create-{{dashCase name}}' });
+
   }
 
   async execute(
     params: ICreate{{pascalCase name}}Usecase.Params,
   ): Promise<ICreate{{pascalCase name}}Usecase.Response> {
-    this.logger.logDebug({ message: 'Request received', data: params });
+    console.log({ message: 'Request received', data: params });
 
     const { name } = params;
 
     const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByNameRepository.get(name);
 
     if ({{camelCase name}}Exists) {
-      this.logger.logError({
+      console.log({
         message: '{{pascalCase name}} already exist',
         data: {{camelCase name}}Exists,
       });
@@ -61,7 +61,7 @@ export class Create{{pascalCase name}}Usecase implements ICreate{{pascalCase nam
 
     const {{camelCase name}}Created = await this.save{{pascalCase name}}Repository.save({{camelCase name}});
 
-    this.logger.logDebug({
+    console.log({
       message: '{{pascalCase name}} created',
       data: {{camelCase name}}Created,
     });

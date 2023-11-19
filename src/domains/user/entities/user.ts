@@ -1,6 +1,13 @@
-type UserType = {
+
+export enum UserTypeEnum {
+  CLIENT = 'CLIENT',
+  ADMIN = 'ADMIN',
+}
+
+
+export type UserType = {
   id: string;
-  isAdmin?: boolean;
+  type: string;
   enabled?: boolean;
   name: string;
   email: string;
@@ -10,7 +17,7 @@ type UserType = {
 
 export class User {
   id: string;
-  isAdmin: boolean;
+  type: string;
   enabled: boolean;
   name: string;
   email: string;
@@ -18,10 +25,10 @@ export class User {
   updatedAt?: Date;
 
   constructor(user: UserType) {
-    const { id, isAdmin, enabled, name, email, createdAt, updatedAt } = user;
+    const { id, type, enabled, name, email, createdAt, updatedAt } = user;
 
     this.id = id;
-    this.isAdmin = isAdmin ?? false;
+    this.type = type;
     this.enabled = enabled ?? true;
     this.name = name;
     this.email = email;

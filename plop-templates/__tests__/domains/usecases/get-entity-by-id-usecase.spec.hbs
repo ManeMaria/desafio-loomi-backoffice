@@ -7,7 +7,7 @@ import {
   IGet{{pascalCase name}}ByIdRepository,
 } from '@/domains/{{dashCase name}}/usecases/repos';
 import { Get{{pascalCase name}}ByIdUsecase as UseCase } from '@/domains/{{dashCase name}}/usecases';
-import { pinoLoggerLocal } from '@/shared/infra/logs';
+
 
 const makeSut = () => {
   const get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository =
@@ -18,7 +18,7 @@ const makeSut = () => {
 
   const sut = new UseCase(
     get{{pascalCase name}}ByIdRepository,
-    pinoLoggerLocal
+
   );
 
   return {

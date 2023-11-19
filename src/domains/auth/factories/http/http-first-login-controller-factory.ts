@@ -7,8 +7,6 @@ import {
 import { makeFirstLoginValidation } from '@/domains/auth/interface/validation';
 import { HttpFirstLoginController } from '@/domains/auth/interface/http';
 
-import { pinoLoggerLocal } from '@/shared/infra/logs';
-
 export const makeHttpFirstLoginController = (): HttpFirstLoginController => {
   const getAuthUserByEmailRepository = new PrismaGetAuthUserByEmailRepository();
   const getAuthUserByEmailInCloudGateway =
@@ -16,14 +14,12 @@ export const makeHttpFirstLoginController = (): HttpFirstLoginController => {
   const firstLoginInCloudGateway = new CognitoFirstLoginInCloudGateway();
   const loginInCloudGateway = new CognitoLoginInCloudGateway();
   const validation = makeFirstLoginValidation();
-  const loggerLocal = pinoLoggerLocal;
 
   return new HttpFirstLoginController(
     getAuthUserByEmailRepository,
     getAuthUserByEmailInCloudGateway,
     firstLoginInCloudGateway,
     loginInCloudGateway,
-    validation,
-    loggerLocal
+    validation
   );
 };

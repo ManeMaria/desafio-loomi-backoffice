@@ -20,7 +20,7 @@ import {
   serverError,
   unauthorized,
 } from '@/shared/interface/http/helpers';
-import { ILoggerLocal } from '@/shared/protocols';
+
 import { ValidationException } from '@/shared/helpers';
 import { CognitoException } from '@/shared/infra/cognito';
 import { Validation } from '@/shared/interface/validation/protocols';
@@ -32,28 +32,23 @@ export interface HttpLoginRequest {
 
 export class HttpLoginController implements HttpController {
   private controller: LoginController;
-  private logger: ILoggerLocal;
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     loginInCloudGateway: ILoginInCloudGateway,
-    validation: Validation,
-    logger: ILoggerLocal
+    validation: Validation
   ) {
     this.controller = new LoginController(
       getAuthUserByEmailRepository,
       getAuthUserByEmailInCloudGateway,
       loginInCloudGateway,
-      validation,
-      logger
+      validation
     );
-
-    this.logger = logger.child({ httpController: 'login' });
   }
 
   async handle(httpRequest: HttpLoginRequest): Promise<HttpResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+    console.log({ message: 'Request Received', data: httpRequest });
 
     const { email, password } = httpRequest;
 
@@ -66,7 +61,7 @@ export class HttpLoginController implements HttpController {
         password,
       });
 
-      this.logger.logDebug({ message: 'Auth User Logged', data: authUser });
+      console.log({ message: 'Auth User Logged', data: authUser });
 
       return ok({ accessToken, refreshToken, authUser });
     } catch (error) {

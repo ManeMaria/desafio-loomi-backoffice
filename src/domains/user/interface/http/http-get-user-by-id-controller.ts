@@ -15,7 +15,6 @@ import {
   HttpResponse,
   HttpController,
 } from '@/shared/interface/http/protocols';
-import { ILoggerLocal } from '@/shared/protocols';
 import { ValidationException } from '@/shared/helpers';
 import { Validation } from '@/shared/interface/validation/protocols';
 export interface HttpGetUserByIdRequest {
@@ -24,33 +23,28 @@ export interface HttpGetUserByIdRequest {
 
 export class HttpGetUserByIdController implements HttpController {
   private controller: GetUserByIdController;
-  private logger: ILoggerLocal;
 
   constructor(
     getUserByIdRepository: IGetUserByIdRepository,
     getUserByEmailInCloudRepository: IGetUserByEmailInCloudRepository,
-    validation: Validation,
-    logger: ILoggerLocal
+    validation: Validation
   ) {
     this.controller = new GetUserByIdController(
       getUserByIdRepository,
       getUserByEmailInCloudRepository,
-      validation,
-      logger
+      validation
     );
-
-    this.logger = logger.child({ httpController: 'get-user-by-id' });
   }
 
   async handle(httpRequest: HttpGetUserByIdRequest): Promise<HttpResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+    console.log({ message: 'Request Received', data: httpRequest });
 
     const { id } = httpRequest;
 
     try {
       const user = await this.controller.execute({ id });
 
-      this.logger.logDebug({ message: 'User found', data: user });
+      console.log({ message: 'User found', data: user });
 
       if (!user) {
         return notFound(new UserNotFoundException({ id }));

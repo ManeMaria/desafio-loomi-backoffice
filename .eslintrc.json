@@ -4,18 +4,25 @@
     "node": true,
     "jest": true
   },
-  "extends": ["standard", "prettier"],
+  "extends": [
+    "standard",
+    "prettier"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": [
+    "@typescript-eslint",
+    "unused-imports"
+  ],
   "rules": {
     "no-redeclare": "off",
     "import/export": "off",
     "no-useless-constructor": "off",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error"
   },
   "globals": {
     "NodeJS": true

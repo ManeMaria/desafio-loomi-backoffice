@@ -6,7 +6,6 @@ import {
   AuthUserTransformers,
 } from '@/domains/auth/interface/presenters';
 
-import { ILoggerLocal } from '@/shared/protocols';
 import { ValidationException } from '@/shared/helpers';
 import { Validation } from '@/shared/interface/validation/protocols';
 
@@ -18,27 +17,22 @@ export type GetUserByTokenResponse = AuthUserDefaultPresenter;
 
 export class GetAuthUserByTokenController {
   private usecase: GetAuthUserByTokenUsecase;
-  private logger: ILoggerLocal;
 
   constructor(
     getAuthUserByTokenInCloudGateway: IGetAuthUserByTokenInCloudGateway,
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
-    private readonly validation: Validation,
-    logger: ILoggerLocal
+    private readonly validation: Validation
   ) {
     this.usecase = new GetAuthUserByTokenUsecase(
       getAuthUserByTokenInCloudGateway,
-      getAuthUserByEmailRepository,
-      logger
+      getAuthUserByEmailRepository
     );
-
-    this.logger = logger.child({ controller: 'get-auth-user-by-token' });
   }
 
   async execute(
     request: GetUserByTokenRequest
   ): Promise<GetUserByTokenResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: request });
+    console.log({ message: 'Request Received', data: request });
 
     const hasError = this.validation.validate(request);
 
@@ -46,7 +40,7 @@ export class GetAuthUserByTokenController {
       throw new ValidationException(hasError);
     }
 
-    this.logger.logDebug({ message: 'Params validated' });
+    console.log({ message: 'Params validated' });
 
     const { token } = request;
 
@@ -59,7 +53,7 @@ export class GetAuthUserByTokenController {
     const autUserPresenter =
       AuthUserTransformers.generateDefaultPresenter(authUser);
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth User found by token',
       data: autUserPresenter,
     });

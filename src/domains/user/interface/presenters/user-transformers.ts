@@ -7,7 +7,7 @@ export class UserTransformers {
       id: user.id,
       name: user.name,
       email: user.email,
-      is_admin: user.isAdmin,
+      type: user.type,
       created_at: user.createdAt,
       updated_at: user.updatedAt,
     };

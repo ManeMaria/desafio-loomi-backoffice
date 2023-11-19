@@ -69,6 +69,7 @@ export class SwaggerTypes {
   static array(required: required = false, type: any, maxItems: number) {
     return {
       type: 'array',
+      required,
       items: {
         ...type,
         maxItems,
@@ -79,7 +80,17 @@ export class SwaggerTypes {
   static object(required: required = false, properties: any) {
     return {
       type: 'object',
+      required,
       properties: Object.fromEntries(properties),
+    };
+  }
+
+  static enum(required: required = false, values: any[], example: any = values[0]) {
+    return {
+      type: 'string',
+      required,
+      example,
+      enum: values,
     };
   }
 }

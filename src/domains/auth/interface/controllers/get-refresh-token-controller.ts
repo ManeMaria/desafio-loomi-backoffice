@@ -2,7 +2,6 @@ import { GetRefreshTokenUsecase } from '@/domains/auth/usecases';
 import { IGetRefreshTokenInCloudGateway } from '@/domains/auth/usecases/gateways';
 import { AccessDefaultPresenter } from '@/domains/auth/interface/presenters';
 
-import { ILoggerLocal } from '@/shared/protocols';
 import { ValidationException } from '@/shared/helpers';
 import { Validation } from '@/shared/interface/validation/protocols';
 
@@ -14,25 +13,18 @@ export type GetRefreshTokenResponse = AccessDefaultPresenter;
 
 export class GetRefreshTokenController {
   private usecase: GetRefreshTokenUsecase;
-  private logger: ILoggerLocal;
 
   constructor(
     getRefreshTokenInCloudGateway: IGetRefreshTokenInCloudGateway,
-    private readonly validation: Validation,
-    logger: ILoggerLocal
+    private readonly validation: Validation
   ) {
-    this.usecase = new GetRefreshTokenUsecase(
-      getRefreshTokenInCloudGateway,
-      logger
-    );
-
-    this.logger = logger.child({ controller: 'get-refresh-token' });
+    this.usecase = new GetRefreshTokenUsecase(getRefreshTokenInCloudGateway);
   }
 
   async execute(
     request: GetRefreshTokenRequest
   ): Promise<GetRefreshTokenResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: request });
+    console.log({ message: 'Request Received', data: request });
 
     const hasError = this.validation.validate(request);
 
@@ -40,7 +32,7 @@ export class GetRefreshTokenController {
       throw new ValidationException(hasError);
     }
 
-    this.logger.logDebug({ message: 'Params validated', data: request });
+    console.log({ message: 'Params validated', data: request });
 
     const { refreshToken } = request;
 
@@ -53,7 +45,7 @@ export class GetRefreshTokenController {
       refresh_token: access.refreshToken,
     };
 
-    this.logger.logDebug({ message: 'Refresh token getted' });
+    console.log({ message: 'Refresh token getted' });
 
     return accessDefaultPresenter;
   }

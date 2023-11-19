@@ -10,7 +10,6 @@ import {
   AuthUserTransformers,
 } from '@/domains/auth/interface/presenters';
 
-import { ILoggerLocal } from '@/shared/protocols';
 import { Validation } from '@/shared/interface/validation/protocols';
 import { ValidationException } from '@/shared/helpers';
 
@@ -26,27 +25,22 @@ export type LoginResponse = {
 
 export class LoginController {
   private usecase: LoginUsecase;
-  private logger: ILoggerLocal;
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     loginInCloudGateway: ILoginInCloudGateway,
-    private readonly validation: Validation,
-    logger: ILoggerLocal
+    private readonly validation: Validation
   ) {
     this.usecase = new LoginUsecase(
       getAuthUserByEmailRepository,
       getAuthUserByEmailInCloudGateway,
-      loginInCloudGateway,
-      logger
+      loginInCloudGateway
     );
-
-    this.logger = logger.child({ controller: 'login' });
   }
 
   async execute(request: LoginRequest): Promise<LoginResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: request });
+    console.log({ message: 'Request Received', data: request });
 
     const hasError = this.validation.validate(request);
 
@@ -54,7 +48,7 @@ export class LoginController {
       throw new ValidationException(hasError);
     }
 
-    this.logger.logDebug({ message: 'Params Validated' });
+    console.log({ message: 'Params Validated' });
 
     const { email, password } = request;
 
@@ -71,7 +65,7 @@ export class LoginController {
     const authUserDefaultPresenter =
       AuthUserTransformers.generateDefaultPresenter(authUser);
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth User logged',
       data: authUserDefaultPresenter,
     });

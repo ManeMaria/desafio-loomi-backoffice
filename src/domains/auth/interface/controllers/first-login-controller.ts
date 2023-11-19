@@ -11,7 +11,6 @@ import {
   AuthUserTransformers,
 } from '@/domains/auth/interface/presenters';
 
-import { ILoggerLocal } from '@/shared/protocols';
 import { ValidationException } from '@/shared/helpers';
 import { Validation } from '@/shared/interface/validation/protocols';
 
@@ -28,29 +27,24 @@ export type FirstLoginResponse = {
 
 export class FirstLoginController {
   private usecase: FirstLoginUsecase;
-  private logger: ILoggerLocal;
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     firstLoginInCloudGateway: IFirstLoginInCloudGateway,
     loginInCloudGateway: ILoginInCloudGateway,
-    private readonly validation: Validation,
-    logger: ILoggerLocal
+    private readonly validation: Validation
   ) {
     this.usecase = new FirstLoginUsecase(
       getAuthUserByEmailRepository,
       getAuthUserByEmailInCloudGateway,
       firstLoginInCloudGateway,
-      loginInCloudGateway,
-      logger
+      loginInCloudGateway
     );
-
-    this.logger = logger.child({ controller: 'first-login' });
   }
 
   async execute(request: FirstLoginRequest): Promise<FirstLoginResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: request });
+    console.log({ message: 'Request Received', data: request });
 
     const hasError = this.validation.validate(request);
 
@@ -58,7 +52,7 @@ export class FirstLoginController {
       throw new ValidationException(hasError);
     }
 
-    this.logger.logDebug({ message: 'Params validated' });
+    console.log({ message: 'Params validated' });
 
     const { email, newPassword, temporaryPassword } = request;
 
@@ -76,7 +70,7 @@ export class FirstLoginController {
     const authUserDefaultPresenter =
       AuthUserTransformers.generateDefaultPresenter(authUser);
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth User made first login',
       data: authUser,
     });

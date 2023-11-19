@@ -10,7 +10,6 @@ import {
 import { HttpCreateUserController } from '@/domains/user/interface/http';
 import { makeCreateUserValidation } from '@/domains/user/interface/validation';
 
-import { pinoLoggerLocal } from '@/shared/infra/logs';
 import { UUIDGeneratorAdapter } from '@/shared/infra/uuid';
 
 export const makeHttpCreateUserController = (): HttpCreateUserController => {
@@ -22,7 +21,6 @@ export const makeHttpCreateUserController = (): HttpCreateUserController => {
   const saveUserInCloudRepository = new CognitoSaveUserInCloudRepository();
   const deleteUserByIdRepository = new PrismaDeleteUserByIdRepository();
   const validation = makeCreateUserValidation();
-  const logger = pinoLoggerLocal;
 
   return new HttpCreateUserController(
     getUserByEmailRepository,
@@ -31,7 +29,6 @@ export const makeHttpCreateUserController = (): HttpCreateUserController => {
     saveUserRepository,
     saveUserInCloudRepository,
     deleteUserByIdRepository,
-    validation,
-    logger
+    validation
   );
 };

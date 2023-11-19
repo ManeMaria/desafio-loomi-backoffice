@@ -4,8 +4,7 @@ import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { IGetAuthUserByEmailRepository } from '@/domains/auth/usecases/repos';
 
 export class PrismaGetAuthUserByEmailRepository
-  implements IGetAuthUserByEmailRepository
-{
+  implements IGetAuthUserByEmailRepository {
   private prismaConnection: PrismaClient;
 
   constructor() {
@@ -18,7 +17,7 @@ export class PrismaGetAuthUserByEmailRepository
         where: { email, enabled: true },
         select: {
           id: true,
-          isAdmin: true,
+          type: true,
           email: true,
           name: true,
         },

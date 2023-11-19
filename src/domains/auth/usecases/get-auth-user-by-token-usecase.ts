@@ -6,8 +6,6 @@ import {
 } from '@/domains/auth/usecases/exceptions';
 import { IGetAuthUserByTokenInCloudGateway } from '@/domains/auth/usecases/gateways';
 
-import { ILoggerLocal } from '@/shared/protocols';
-
 export interface IGetAuthUserByTokenUsecase {
   execute(
     params: IGetAuthUserByTokenUsecase.Params
@@ -22,20 +20,15 @@ export namespace IGetAuthUserByTokenUsecase {
 }
 
 export class GetAuthUserByTokenUsecase implements IGetAuthUserByTokenUsecase {
-  private logger: ILoggerLocal;
-
   constructor(
     private readonly getAuthUserByTokenInCloudGateway: IGetAuthUserByTokenInCloudGateway,
-    private readonly getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
-    logger: ILoggerLocal
-  ) {
-    this.logger = logger.child({ usecase: 'get-auth-user-by-token' });
-  }
+    private readonly getAuthUserByEmailRepository: IGetAuthUserByEmailRepository
+  ) {}
 
   async execute(
     params: IGetAuthUserByTokenUsecase.Params
   ): Promise<IGetAuthUserByTokenUsecase.Result> {
-    this.logger.logDebug({ message: 'Request Received', data: params });
+    console.log({ message: 'Request Received', data: params });
 
     const { token } = params;
 
@@ -47,7 +40,7 @@ export class GetAuthUserByTokenUsecase implements IGetAuthUserByTokenUsecase {
       throw new AuthUserNotFoundByTokenException(token);
     }
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth user found by token in cloud',
       data: cloudAuthUserFound,
     });
@@ -60,14 +53,14 @@ export class GetAuthUserByTokenUsecase implements IGetAuthUserByTokenUsecase {
       throw new AuthUserNotFoundException({ email });
     }
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth user found by email',
       data: authUserFound,
     });
 
     const authUser = new AuthUser(authUserFound);
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth user found by token',
       data: authUser,
     });

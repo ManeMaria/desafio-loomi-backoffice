@@ -5,6 +5,7 @@ import {
   SwaggerResponse,
   defaultResponses,
 } from '@/shared/infra/swagger/helpers';
+import { TypeAuthUserEnum } from '@/domains/auth/entities/auth-user';
 
 export const authTag = 'Auth';
 
@@ -12,7 +13,7 @@ export const authUserSchema = SwaggerSchemas.create('AuthUser', [
   ['id', SwaggerTypes.uuid(true)],
   ['name', SwaggerTypes.string(true)],
   ['email', SwaggerTypes.email(true)],
-  ['is_admin', SwaggerTypes.boolean(true)],
+  ['type', SwaggerTypes.enum(true, Object.values(TypeAuthUserEnum))],
 ]);
 
 export const authPaths = {
@@ -46,7 +47,7 @@ export const authPaths = {
                 ['id', SwaggerTypes.uuid(true)],
                 ['name', SwaggerTypes.string(true)],
                 ['email', SwaggerTypes.email(true)],
-                ['is_admin', SwaggerTypes.boolean(true)],
+                ['type', SwaggerTypes.enum(true, Object.values(TypeAuthUserEnum))],
               ]),
             ],
           ])
@@ -84,7 +85,7 @@ export const authPaths = {
                 ['id', SwaggerTypes.uuid(true)],
                 ['name', SwaggerTypes.string(true)],
                 ['email', SwaggerTypes.email(true)],
-                ['is_admin', SwaggerTypes.boolean(true)],
+                ['type', SwaggerTypes.enum(true, Object.values(TypeAuthUserEnum))],
               ]),
             ],
           ])

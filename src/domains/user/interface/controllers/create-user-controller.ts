@@ -12,20 +12,20 @@ import {
 } from '@/domains/user/interface/presenters';
 
 import { ValidationException } from '@/shared/helpers';
-import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
+import { IUuidGenerator } from '@/shared/protocols';
 import { Validation } from '@/shared/interface/validation/protocols';
+
 
 export interface CreateUserRequest {
   name: string;
   email: string;
-  isAdmin?: boolean;
+  type: string;
 }
 
 export type CreateUserResponse = UserDefaultPresenter;
 
 export class CreateUserController {
   private usecase: CreateUserUsecase;
-  private logger: ILoggerLocal;
 
   constructor(
     getUserByEmailRepository: IGetUserByEmailRepository,
@@ -34,8 +34,7 @@ export class CreateUserController {
     saveUserRepository: ISaveUserRepository,
     saveUserInCloudRepository: ISaveUserInCloudRepository,
     deleteUserByIdRepository: IDeleteUserByIdRepository,
-    private readonly validation: Validation,
-    logger: ILoggerLocal
+    private readonly validation: Validation
   ) {
     this.usecase = new CreateUserUsecase(
       getUserByEmailRepository,
@@ -43,33 +42,30 @@ export class CreateUserController {
       uuidGenerator,
       saveUserRepository,
       saveUserInCloudRepository,
-      deleteUserByIdRepository,
-      logger
+      deleteUserByIdRepository
     );
-
-    this.logger = logger.child({ controller: 'create-user' });
   }
 
   async execute(request: CreateUserRequest): Promise<CreateUserResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: request });
+    console.log({ message: 'Request Received', data: request });
 
-    const { name, email, isAdmin } = request;
+    const { name, email, type } = request;
 
     const hasError = this.validation.validate({
       name,
       email,
-      isAdmin,
+      type,
     });
 
-    this.logger.logDebug({ message: 'Params validated' });
+    console.log({ message: 'Params validated' });
 
     if (hasError) {
       throw new ValidationException(hasError);
     }
 
-    const userCreated = await this.usecase.execute({ name, email, isAdmin });
+    const userCreated = await this.usecase.execute({ name, email, type });
 
-    this.logger.logDebug({ message: 'User created', data: userCreated });
+    console.log({ message: 'User created', data: userCreated });
 
     const userPresenter =
       UserTransformers.generateDefaultTransformer(userCreated);

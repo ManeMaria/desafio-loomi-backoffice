@@ -9,6 +9,7 @@ import {
   UuidValidation,
   RangeDateValidation,
   OrderByValidation,
+  EnumFieldValidation,
 } from '@/shared/interface/validation/validators';
 
 import {
@@ -18,7 +19,10 @@ import {
   ValidatorNumberAdapter,
   ValidatorUuidAdapter,
   ValidatorDateAdapter,
+
 } from '@/shared/infra/validators';
+import { UserTypeEnum } from '@/domains/user/entities';
+
 
 const validations: Validation[] = [];
 
@@ -26,7 +30,7 @@ validations.push(new UuidValidation('id', new ValidatorUuidAdapter()));
 validations.push(new EmailValidation('email', new ValidatorEmailAdapter()));
 validations.push(new NameValidation('name', new ValidatorNameAdapter()));
 validations.push(
-  new BooleanValidation('isAdmin', new ValidatorBooleanAdapter())
+  new EnumFieldValidation('type', Object.values(UserTypeEnum))
 );
 validations.push(
   new BooleanValidation('enabled', new ValidatorBooleanAdapter())

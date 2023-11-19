@@ -13,7 +13,7 @@ import {
   HttpController,
   HttpResponse,
 } from '@/shared/interface/http/protocols';
-import { ILoggerLocal } from '@/shared/protocols';
+
 import { ValidationException } from '@/shared/helpers';
 import { CognitoException } from '@/shared/infra/cognito';
 import { Validation } from '@/shared/interface/validation/protocols';
@@ -25,28 +25,23 @@ export interface HttpForgotPasswordRequest {
 
 export class HttpForgotPasswordController implements HttpController {
   private controller: ForgotPasswordController;
-  private logger: ILoggerLocal;
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     forgotPasswordInCloudGateway: IForgotPasswordInCloudGateway,
-    validation: Validation,
-    logger: ILoggerLocal
+    validation: Validation
   ) {
     this.controller = new ForgotPasswordController(
       getAuthUserByEmailRepository,
       getAuthUserByEmailInCloudGateway,
       forgotPasswordInCloudGateway,
-      validation,
-      logger
+      validation
     );
-
-    this.logger = logger.child({ httpController: 'forgot-password' });
   }
 
   async handle(httpRequest: HttpForgotPasswordRequest): Promise<HttpResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+    console.log({ message: 'Request Received', data: httpRequest });
 
     const { email } = httpRequest;
 
@@ -55,7 +50,7 @@ export class HttpForgotPasswordController implements HttpController {
         email,
       });
 
-      this.logger.logDebug({
+      console.log({
         message: 'Auth User forgot password',
         data: email,
       });

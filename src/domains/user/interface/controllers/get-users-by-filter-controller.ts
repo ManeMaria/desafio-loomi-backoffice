@@ -15,13 +15,13 @@ import {
   Pagination,
   ValidationException,
 } from '@/shared/helpers';
-import { ILoggerLocal } from '@/shared/protocols';
+
 import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface GetUsersByFilterRequest {
   name?: string;
   email?: string;
-  isAdmin?: boolean;
+  type?: string;
   enabled?: boolean;
   createdAt?: DateFilter;
   updatedAt?: DateFilter;
@@ -36,35 +36,30 @@ export interface GetUsersByFilterRequest {
 
 export type GetUsersByFilterResponse =
   | {
-      items: UserDefaultPresenter[];
-      totalItemsListed: number;
-      totalItems: number;
-    }
+    items: UserDefaultPresenter[];
+    totalItemsListed: number;
+    totalItems: number;
+  }
   | { totalItems: number };
 
 export class GetUsersByFilterController {
   private usecase: GetUsersByFilterUsecase;
-  private logger: ILoggerLocal;
 
   constructor(
     getUsersByFilterRepository: IGetUsersByFilterRepository,
     countUsersByFilterRepository: ICountUsersByFilterRepository,
-    private readonly validation: Validation,
-    logger: ILoggerLocal
+    private readonly validation: Validation
   ) {
     this.usecase = new GetUsersByFilterUsecase(
       getUsersByFilterRepository,
-      countUsersByFilterRepository,
-      logger
+      countUsersByFilterRepository
     );
-
-    this.logger = logger.child({ controller: 'get-users-by-filter' });
   }
 
   async execute(
     request: GetUsersByFilterRequest
   ): Promise<GetUsersByFilterResponse> {
-    this.logger.logDebug({ message: 'Request received', data: request });
+    console.log({ message: 'Request received', data: request });
 
     const hasErrors = this.validation.validate(request);
 
@@ -72,7 +67,7 @@ export class GetUsersByFilterController {
       throw new ValidationException(hasErrors);
     }
 
-    this.logger.logDebug({ message: 'Params validated' });
+    console.log({ message: 'Params validated' });
 
     const {
       orderBy: orderByFilter,
@@ -80,7 +75,7 @@ export class GetUsersByFilterController {
       skip,
       name,
       email,
-      isAdmin,
+      type,
       enabled,
       createdAt,
       updatedAt,
@@ -90,7 +85,7 @@ export class GetUsersByFilterController {
     const filters = {
       name,
       email,
-      isAdmin,
+      type,
       enabled,
       createdAt,
       updatedAt,
@@ -106,7 +101,7 @@ export class GetUsersByFilterController {
       count,
     });
 
-    this.logger.logDebug({
+    console.log({
       message: 'Users found',
       data: { totalUsers, totalItemsListed: users?.length },
     });

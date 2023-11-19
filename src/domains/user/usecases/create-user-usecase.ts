@@ -1,4 +1,4 @@
-import { User } from '@/domains/user/entities';
+import { UserTypeEnum, User } from '@/domains/user/entities';
 import { UserAlreadyExistsException } from '@/domains/user/usecases/exceptions';
 import {
   IGetUserByEmailRepository,
@@ -8,7 +8,7 @@ import {
   IDeleteUserByIdRepository,
 } from '@/domains/user/usecases/repos';
 
-import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
+import { IUuidGenerator } from '@/shared/protocols';
 export interface ICreateUserUsecase {
   execute(
     params: ICreateUserUsecase.Params
@@ -19,56 +19,51 @@ export namespace ICreateUserUsecase {
   export type Params = {
     name: string;
     email: string;
-    isAdmin?: boolean;
+    type: string;
   };
 
   export type Response = User;
 }
 
 export class CreateUserUsecase implements ICreateUserUsecase {
-  private logger: ILoggerLocal;
-
   constructor(
     private readonly getUserByEmailRepository: IGetUserByEmailRepository,
     private readonly getUserByEmailInCloudRepository: IGetUserByEmailInCloudRepository,
     private readonly uuidGenerator: IUuidGenerator,
     private readonly saveUserRepository: ISaveUserRepository,
     private readonly saveUserInCloudRepository: ISaveUserInCloudRepository,
-    private readonly deleteUserByIdRepository: IDeleteUserByIdRepository,
-    logger: ILoggerLocal
-  ) {
-    this.logger = logger.child({ usecase: 'create-user' });
-  }
+    private readonly deleteUserByIdRepository: IDeleteUserByIdRepository
+  ) { }
 
   async execute(
     params: ICreateUserUsecase.Params
   ): Promise<ICreateUserUsecase.Response> {
-    this.logger.logDebug({ message: 'Request received', data: params });
+    console.log({ message: 'Request received', data: params });
 
-    const { name, email, isAdmin } = params;
+    const { name, email, type } = params;
 
     const userExists = await this.getUserByEmailRepository.getByEmail(email);
 
     if (userExists) {
-      throw new UserAlreadyExistsException({ name, email, isAdmin });
+      throw new UserAlreadyExistsException({ name, email });
     }
 
     const userExistsInCloud =
       await this.getUserByEmailInCloudRepository.getByEmail(email);
 
     if (userExistsInCloud) {
-      throw new UserAlreadyExistsException({ name, email, isAdmin });
+      throw new UserAlreadyExistsException({ name, email });
     }
 
     const id = this.uuidGenerator.generate();
 
-    const user = new User({ id, name, email, isAdmin });
+    const user = new User({ id, name, email, type: type as UserTypeEnum });
 
     const userCreated = await this.saveUserRepository.save({
       ...user,
     });
 
-    this.logger.logDebug({
+    console.log({
       message: 'User created in database',
       data: userCreated,
     });
@@ -76,16 +71,16 @@ export class CreateUserUsecase implements ICreateUserUsecase {
     try {
       await this.saveUserInCloudRepository.save({ email });
 
-      this.logger.logDebug({ message: 'User created in cloud' });
+      console.log({ message: 'User created in cloud' });
     } catch (error) {
-      this.logger.logDebug({ message: 'User deleted', data: { id } });
+      console.log({ message: 'User deleted', data: { id } });
 
       await this.deleteUserByIdRepository.delete(id);
 
       throw error;
     }
 
-    this.logger.logDebug({ message: 'User created', data: userCreated });
+    console.log({ message: 'User created', data: userCreated });
 
     return userCreated;
   }

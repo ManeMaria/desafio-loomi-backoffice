@@ -1,6 +1,5 @@
 {
-    "*.ts": [
-        "npm run lint:fix",
-        "npm run style:fix"
-    ]
+  "*.ts": [
+    "npm run validate"
+  ]
 }

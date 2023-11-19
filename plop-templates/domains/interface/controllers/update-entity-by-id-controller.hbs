@@ -12,7 +12,7 @@ import {
   {{pascalCase name}}Transformers,
 } from '@/domains/{{dashCase name}}/interface/presenters';
 
-import { ILoggerLocal } from '@/shared/protocols';
+
 import { ValidationException } from '@/shared/helpers';
 import { Validation } from '@/shared/interface/validation/protocols';
 
@@ -27,29 +27,29 @@ export type Update{{pascalCase name}}ByIdResponse = {{pascalCase name}}DefaultPr
 
 export class Update{{pascalCase name}}ByIdController {
   private usecase: Update{{pascalCase name}}ByIdUsecase;
-  private logger: ILoggerLocal;
+
 
   constructor(
     get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
     get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
     update{{pascalCase name}}Repository: IUpdate{{pascalCase name}}Repository,
     private readonly validation: Validation,
-    logger: ILoggerLocal,
+
   ) {
     this.usecase = new Update{{pascalCase name}}ByIdUsecase(
       get{{pascalCase name}}ByIdRepository,
       get{{pascalCase name}}ByNameRepository,
       update{{pascalCase name}}Repository,
-      logger,
+
     );
 
-    this.logger = logger.child({ controller: 'update-{{dashCase name}}-by-id' });
+
   }
 
   async execute(
     request: Update{{pascalCase name}}ByIdRequest,
   ): Promise<Update{{pascalCase name}}ByIdResponse> {
-    this.logger.logDebug({ message: 'Request received', data: request });
+    console.log({ message: 'Request received', data: request });
 
     const { id, paramsToUpdate } = request;
 
@@ -64,7 +64,7 @@ export class Update{{pascalCase name}}ByIdController {
       throw new ValidationException(hasErrors);
     }
 
-    this.logger.logDebug({ message: 'Params validated' });
+    console.log({ message: 'Params validated' });
 
     const {{camelCase name}}Updated = await this.usecase.execute({
       id,
@@ -76,7 +76,7 @@ export class Update{{pascalCase name}}ByIdController {
     const {{camelCase name}}UpdatedPresenter =
       {{pascalCase name}}Transformers.generateDefaultPresenter({{camelCase name}}Updated);
 
-    this.logger.logDebug({
+    console.log({
       message: '{{pascalCase name}} updated',
       data: {{camelCase name}}UpdatedPresenter,
     });

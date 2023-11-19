@@ -13,7 +13,7 @@ import {
   HttpController,
 } from '@/shared/interface/http/protocols';
 import { ValidationException } from '@/shared/helpers';
-import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
+import { IUuidGenerator } from '@/shared/protocols';
 import { Validation } from '@/shared/interface/validation/protocols';
 import {
   badRequest,
@@ -24,12 +24,11 @@ import {
 export interface HttpCreateUserRequest {
   name: string;
   email: string;
-  is_admin?: boolean;
+  type: string;
 }
 
 export class HttpCreateUserController implements HttpController {
   private controller: CreateUserController;
-  private logger: ILoggerLocal;
 
   constructor(
     getUserByEmailRepository: IGetUserByEmailRepository,
@@ -38,8 +37,7 @@ export class HttpCreateUserController implements HttpController {
     saveUserRepository: ISaveUserRepository,
     saveUserInCloudRepository: ISaveUserInCloudRepository,
     deleteUserByIdRepository: IDeleteUserByIdRepository,
-    validation: Validation,
-    logger: ILoggerLocal
+    validation: Validation
   ) {
     this.controller = new CreateUserController(
       getUserByEmailRepository,
@@ -48,26 +46,23 @@ export class HttpCreateUserController implements HttpController {
       saveUserRepository,
       saveUserInCloudRepository,
       deleteUserByIdRepository,
-      validation,
-      logger
+      validation
     );
-
-    this.logger = logger.child({ httpController: 'create-user' });
   }
 
   async handle(httpRequest: HttpCreateUserRequest): Promise<HttpResponse> {
-    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+    console.log({ message: 'Request Received', data: httpRequest });
 
-    const { name, email, is_admin: isAdmin } = httpRequest;
+    const { name, email, type } = httpRequest;
 
     try {
       const userCreated = await this.controller.execute({
         name,
         email,
-        isAdmin,
+        type,
       });
 
-      this.logger.logDebug({ message: 'User created', data: userCreated });
+      console.log({ message: 'User created', data: userCreated });
 
       return created(userCreated);
     } catch (error) {

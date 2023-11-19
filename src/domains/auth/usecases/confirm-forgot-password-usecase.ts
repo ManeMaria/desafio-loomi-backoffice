@@ -8,8 +8,6 @@ import {
   IGetAuthUserByEmailInCloudGateway,
 } from '@/domains/auth/usecases/gateways';
 
-import { ILoggerLocal } from '@/shared/protocols';
-
 export interface IConfirmForgotPasswordUsecase {
   execute(
     params: IConfirmForgotPasswordUsecase.Params
@@ -28,21 +26,16 @@ export namespace IConfirmForgotPasswordUsecase {
 export class ConfirmForgotPasswordUsecase
   implements IConfirmForgotPasswordUsecase
 {
-  private logger: ILoggerLocal;
-
   constructor(
     private readonly getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     private readonly getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
-    private readonly confirmForgotPasswordInCloudGateway: IConfirmForgotPasswordInCloudGateway,
-    logger: ILoggerLocal
-  ) {
-    this.logger = logger.child({ usecase: 'forgot-password' });
-  }
+    private readonly confirmForgotPasswordInCloudGateway: IConfirmForgotPasswordInCloudGateway
+  ) {}
 
   async execute(
     confirmForgotParams: IConfirmForgotPasswordUsecase.Params
   ): Promise<IConfirmForgotPasswordUsecase.Response> {
-    this.logger.logDebug({
+    console.log({
       message: 'Request Received',
       data: confirmForgotParams,
     });
@@ -55,7 +48,7 @@ export class ConfirmForgotPasswordUsecase
       throw new AuthUserNotFoundException({ email });
     }
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth User found',
       data: authUserFound,
     });
@@ -68,7 +61,7 @@ export class ConfirmForgotPasswordUsecase
       throw new AuthUserNotFoundException({ email });
     }
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth User found in cloud',
       data: cloudAuthUserFound,
     });
@@ -85,7 +78,7 @@ export class ConfirmForgotPasswordUsecase
       newPassword,
     });
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth User confirm forgot password',
       data: confirmForgotParams,
     });

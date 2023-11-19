@@ -10,8 +10,6 @@ import {
   ILoginInCloudGateway,
 } from '@/domains/auth/usecases/gateways';
 
-import { ILoggerLocal } from '@/shared/protocols';
-
 export interface ILoginUsecase {
   execute(params: ILoginUsecase.Params): Promise<ILoginUsecase.Response>;
 }
@@ -26,21 +24,16 @@ export namespace ILoginUsecase {
 }
 
 export class LoginUsecase implements ILoginUsecase {
-  private logger: ILoggerLocal;
-
   constructor(
     private readonly getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     private readonly getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
-    private readonly loginInCloudGateway: ILoginInCloudGateway,
-    logger: ILoggerLocal
-  ) {
-    this.logger = logger.child({ usecase: 'login' });
-  }
+    private readonly loginInCloudGateway: ILoginInCloudGateway
+  ) {}
 
   async execute(
     loginParams: ILoginUsecase.Params
   ): Promise<ILoginUsecase.Response> {
-    this.logger.logDebug({ message: 'Request Received', data: loginParams });
+    console.log({ message: 'Request Received', data: loginParams });
 
     const { email, password } = loginParams;
 
@@ -50,7 +43,7 @@ export class LoginUsecase implements ILoginUsecase {
       throw new AuthUserNotFoundException({ email });
     }
 
-    this.logger.logDebug({ message: 'Auth User found', data: authUserFound });
+    console.log({ message: 'Auth User found', data: authUserFound });
 
     const cloudAuthUserInCloud =
       await this.getAuthUserByEmailInCloudGateway.get(email);
@@ -59,7 +52,7 @@ export class LoginUsecase implements ILoginUsecase {
       throw new AuthUserNotFoundException({ email });
     }
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth User found in cloud',
       data: cloudAuthUserInCloud,
     });
@@ -79,7 +72,7 @@ export class LoginUsecase implements ILoginUsecase {
       password,
     });
 
-    this.logger.logDebug({
+    console.log({
       message: 'Auth User logged',
       data: authUserFound,
     });
