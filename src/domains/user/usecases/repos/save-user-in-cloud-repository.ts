@@ -7,6 +7,7 @@ export interface ISaveUserInCloudRepository {
 export namespace ISaveUserInCloudRepository {
   export type Params = {
     email: string;
+    name: string;
   };
   export type Result = void;
 }

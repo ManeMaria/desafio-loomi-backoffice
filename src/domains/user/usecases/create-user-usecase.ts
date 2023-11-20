@@ -1,4 +1,4 @@
-import { UserTypeEnum, User } from '@/domains/user/entities';
+import { User } from '@/domains/user/entities';
 import { UserAlreadyExistsException } from '@/domains/user/usecases/exceptions';
 import {
   IGetUserByEmailRepository,
@@ -42,6 +42,7 @@ export class CreateUserUsecase implements ICreateUserUsecase {
 
     const { name, email, type } = params;
 
+
     const userExists = await this.getUserByEmailRepository.getByEmail(email);
 
     if (userExists) {
@@ -57,7 +58,7 @@ export class CreateUserUsecase implements ICreateUserUsecase {
 
     const id = this.uuidGenerator.generate();
 
-    const user = new User({ id, name, email, type: type as UserTypeEnum });
+    const user = new User({ id, name, email, type });
 
     const userCreated = await this.saveUserRepository.save({
       ...user,
@@ -69,7 +70,7 @@ export class CreateUserUsecase implements ICreateUserUsecase {
     });
 
     try {
-      await this.saveUserInCloudRepository.save({ email });
+      await this.saveUserInCloudRepository.save({ email, name: `${email}_${id}` });
 
       console.log({ message: 'User created in cloud' });
     } catch (error) {

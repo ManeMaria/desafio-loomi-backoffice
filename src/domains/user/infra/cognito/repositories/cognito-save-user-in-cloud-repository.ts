@@ -4,8 +4,7 @@ import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';
 
 export class CognitoSaveUserInCloudRepository
-  implements ISaveUserInCloudRepository
-{
+  implements ISaveUserInCloudRepository {
   private readonly cognitoInstance: CognitoIdentityServiceProvider;
 
   constructor() {
@@ -18,9 +17,10 @@ export class CognitoSaveUserInCloudRepository
   async save(
     userParams: ISaveUserInCloudRepository.Params
   ): Promise<ISaveUserInCloudRepository.Result> {
-    const { email } = userParams;
+    const { email, name } = userParams;
 
     const attributes = [
+
       {
         Name: 'email',
         Value: email,
@@ -34,7 +34,7 @@ export class CognitoSaveUserInCloudRepository
     return new Promise<ISaveUserInCloudRepository.Result>((resolve, reject) => {
       this.cognitoInstance.adminCreateUser(
         {
-          Username: email,
+          Username: name,
           UserAttributes: attributes,
           UserPoolId: cognitoEnvironment.userPoolId,
           DesiredDeliveryMediums: ['EMAIL'],
