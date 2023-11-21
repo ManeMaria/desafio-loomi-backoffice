@@ -13,21 +13,18 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD env var is missing on .env file}
     volumes:
       - ./data/db-local:/var/lib/postgresql/data
-  api-local:
-    profiles:
-      - local
+  api:
     build:
       context: .
       dockerfile: ./build/app/Dockerfile
-    command: ./wait-for.sh db-local:5432 -- npm run start:watch
-    hostname: api-local
+    command: prisma:migration:push && node dist/main/server.js
+    hostname: api
     restart: unless-stopped
     ports:
       - '${API_PORT:?API_PORT env var is missing on .env file}:${API_PORT}'
     env_file:
       - .env
     environment:
-      NODE_ENV: 'local'
       DATABASE_HOST: 'db-local'
       DATABASE_PORT: '5432'
       DATABASE_URL: 'postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@db-local:5432/${DATABASE_NAME}?schema=public'
