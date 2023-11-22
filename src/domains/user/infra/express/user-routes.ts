@@ -24,10 +24,10 @@ userRouter
 
 userRouter
   .route('/users/:id')
-  .get(authMiddleware('CLIENT'), adaptRoute(makeHttpGetUserByIdController()))
-  .patch(authMiddleware('CLIENT'), adaptRoute(makeHttpUpdateUserByIdController()))
+  .get(authMiddleware('USER'), adaptRoute(makeHttpGetUserByIdController()))
+  .patch(authMiddleware('USER'), adaptRoute(makeHttpUpdateUserByIdController()))
   .delete(
-    authMiddleware('CLIENT'),
+    authMiddleware('USER'),
     adaptRoute(makeHttpDeleteUserByIdController())
   );
 

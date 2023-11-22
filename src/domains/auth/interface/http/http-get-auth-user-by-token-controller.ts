@@ -33,7 +33,7 @@ export class HttpGetAuthUserByTokenController implements HttpController {
     getAuthUserByTokenInCloudGateway: IGetAuthUserByTokenInCloudGateway,
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     validation: Validation,
-    private readonly authUserRole: 'ADMIN' | 'CLIENT'
+    private readonly authUserRole: 'ADMIN' | 'USER'
   ) {
     this.controller = new GetAuthUserByTokenController(
       getAuthUserByTokenInCloudGateway,

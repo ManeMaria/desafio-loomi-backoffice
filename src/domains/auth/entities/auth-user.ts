@@ -1,5 +1,5 @@
 export enum TypeAuthUserEnum {
-  CLIENT = 'CLIENT',
+  USER = 'USER',
   ADMIN = 'ADMIN',
 }
 

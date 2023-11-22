@@ -4,7 +4,7 @@ import { makeGetAuthUserByTokenValidation } from '@/domains/auth/interface/valid
 import { HttpGetAuthUserByTokenController } from '@/domains/auth/interface/http';
 
 export const makeHttpGetAuthUserByTokenController = (
-  authUserRole: 'ADMIN' | 'CLIENT' = 'CLIENT'
+  authUserRole: 'ADMIN' | 'USER' = 'USER'
 ): HttpGetAuthUserByTokenController => {
   const getAuthUserByEmailRepository = new PrismaGetAuthUserByEmailRepository();
   const getAuthUserByTokenInCloudGateway =
