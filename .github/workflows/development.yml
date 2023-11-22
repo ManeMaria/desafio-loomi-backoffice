@@ -3,63 +3,57 @@ on:
   push:
     branches: [develop]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
 jobs:
-  #continuous-integration:
-  #  runs-on: ubuntu-latest
-  #  steps:
-  # Step 1
-  #    - uses: actions/checkout@v2
-  # Step 3
-  #    - name: Build Application and Run CI Test
-  #      run: docker-compose -f docker-compose.test.yml build && docker-compose -f docker-compose.test.yml up -d
-
   continuous-deployment:
     runs-on: ubuntu-latest
-    #needs: [continuous-integration]
     if: github.ref == 'refs/heads/develop'
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+      - name: Deploy to Server 1
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.TARGET_DIR }}
+
+      - name: Create .env file
+        run: |
+          echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> .env
+          echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> .env
+          echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> .env
+          echo "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}" >> .env
+          echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "COGNITO_API_VERSION=${{ secrets.COGNITO_API_VERSION }}" >> .env
+          echo "COGNITO_USER_POOL_ID=${{ secrets.COGNITO_USER_POOL_ID }}" >> .env
+          echo "COGNITO_CLIENT_ID=${{ secrets.COGNITO_CLIENT_ID }}" >> .env
+          echo "COGNITO_REGION=${{ secrets.COGNITO_REGION }}" >> .env
+          echo "PRODUCTION_DEPLOY_URL=${{ secrets.PRODUCTION_DEPLOY_URL }}" >> .env
+          echo "PRODUCTION_FRONT_DEPLOY_URL=${{ secrets.PRODUCTION_FRONT_DEPLOY_URL }}" >> .env
+          echo "STAGE_DEPLOY_URL=${{ secrets.STAGE_DEPLOY_URL }}" >> .env
+          echo "STAGE_FRONT_DEPLOY_URL=${{ secrets.STAGE_FRONT_DEPLOY_URL }}" >> .env
+          echo "AWS_BUCKET_NAME=${{ secrets.AWS_BUCKET_NAME }}" >> .env
+          echo "AWS_BUCKET_REGION=${{ secrets.AWS_BUCKET_REGION }}" >> .env
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
+          echo "AWS_S3_FOLDER=${{ secrets.AWS_S3_FOLDER }}" >> .env
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ECR_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_ECR_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_ECR_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Docker authentication
-        run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 820135014097.dkr.ecr.us-east-1.amazonaws.com
-
-      - name: Get commmit hash
-        id: get-hash
-        run: echo "::set-output name=hash::$(git rev-parse --short HEAD)"
-
-      - name: Build application image
-        run: docker build -t ${{ github.event.repository.name }}:staging-${{ steps.get-hash.outputs.hash }} -f build/app/Dockerfile .
-
-      - name: Tag application image
-        run: docker tag ${{ github.event.repository.name }}:staging-${{ steps.get-hash.outputs.hash }} 820135014097.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:staging-${{ steps.get-hash.outputs.hash }}
-
-      - name: Push application image
-        run: docker push 820135014097.dkr.ecr.us-east-1.amazonaws.com/${{ github.event.repository.name }}:staging-${{ steps.get-hash.outputs.hash }}
-
-      - name: Push new images to k8s github repository
-        env:
-          API_GITHUB_TOKEN: ${{ secrets.API_GITHUB_TOKEN }}
-        run: |
-          git config --global user.name "isaquetdiniz"
-          git config --global user.email "itd@cin.ufpe.br"
-
-          git clone https://isaquetdiniz:$API_GITHUB_TOKEN@github.com/loomi/k8s.git
-
-          cd k8s/${{ github.event.repository.name }}-staging
-
-          sed -i 's/${{ github.event.repository.name }}:staging-.\+/${{ github.event.repository.name }}:staging-${{ steps.get-hash.outputs.hash }}/g' deployment.yaml
-          sed -i 's/${{ github.event.repository.name }}:staging-.\+/${{ github.event.repository.name }}:staging-${{ steps.get-hash.outputs.hash }}/g' pre-sync-job.yaml
-
-          git add .
-          git commit -m "feat: update ${{ github.event.repository.name }} staging to ${{ steps.get-hash.outputs.hash }}"
-          git push origin main
+      - name: SSH into EC2 instance and run Docker Compose
+        uses: appleboy/ssh-action@v0.3.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            cd /path/to/your/docker-compose/directory
+            docker-compose up api -d
