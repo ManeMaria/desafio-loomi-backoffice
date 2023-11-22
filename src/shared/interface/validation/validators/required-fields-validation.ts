@@ -9,6 +9,7 @@ export class RequiredFieldsValidation implements Validation {
   }
 
   validate(input: Validation.Params): Validation.Result {
+
     if ([null, undefined].includes(input[this.fieldName])) {
       return new MissingParamError(this.fieldName);
     }

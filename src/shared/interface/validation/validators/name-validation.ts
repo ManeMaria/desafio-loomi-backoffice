@@ -17,7 +17,7 @@ export class NameValidation implements Validation {
   validate(input: Validation.Params): Validation.Result {
     if (input[this.fieldName] === undefined) return;
     const isValid = this.nameValidator.validate(input[this.fieldName]);
-
+    console.log('isValid', isValid)
     if (!isValid) {
       return new InvalidParamError(this.fieldName);
     }
