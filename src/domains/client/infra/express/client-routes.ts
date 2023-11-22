@@ -18,19 +18,19 @@ clientRouter
   .route('/clients')
   .post(adaptRoute(makeHttpCreateClientController()))
   .get(
-    authMiddleware('ADMIN'),
+    authMiddleware(['ADMIN']),
     adaptRoute(makeHttpGetClientsByFilterController())
   );
 
 clientRouter
   .route('/clients/:id')
-  .get(authMiddleware('USER'), adaptRoute(makeHttpGetClientByIdController()))
+  .get(authMiddleware(['USER', 'ADMIN']), adaptRoute(makeHttpGetClientByIdController()))
   .patch(
-    authMiddleware('USER'),
+    authMiddleware(['USER', 'ADMIN']),
     adaptRoute(makeHttpUpdateClientByIdController())
   )
   .delete(
-    authMiddleware('ADMIN'),
+    authMiddleware(['ADMIN']),
     adaptRoute(makeHttpDeleteClientByIdController())
   );
 

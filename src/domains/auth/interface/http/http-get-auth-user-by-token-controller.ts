@@ -33,7 +33,7 @@ export class HttpGetAuthUserByTokenController implements HttpController {
     getAuthUserByTokenInCloudGateway: IGetAuthUserByTokenInCloudGateway,
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     validation: Validation,
-    private readonly authUserRole: 'ADMIN' | 'USER'
+    private readonly authUserRole: ('ADMIN' | 'USER')[]
   ) {
     this.controller = new GetAuthUserByTokenController(
       getAuthUserByTokenInCloudGateway,
@@ -59,7 +59,7 @@ export class HttpGetAuthUserByTokenController implements HttpController {
         data: authUser,
       });
 
-      if (!this.authUserRole.includes(authUser.type)) {
+      if (!this.authUserRole.includes(authUser.type as 'ADMIN' | 'USER')) {
         return forbidden();
       }
 
