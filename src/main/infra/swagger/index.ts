@@ -10,7 +10,8 @@ import {
   authUserSchema,
 } from '@/domains/auth/infra/swagger';
 import { userPaths, userTag, userSchema } from '@/domains/user/infra/swagger';
-import { clientSchema, clientPaths } from '@/domains/client/infra/swagger';
+import { clientSchema, clientPaths } from '@/domains/client/infra/swagger'
+import { productSchema, productPaths } from '@/domains/product/infra/swagger';
 
 const tags = [authTag, userTag];
 
@@ -18,7 +19,8 @@ const schemas = {
   ...errorSchema,
   ...authUserSchema,
   ...userSchema,
-  ...clientSchema
+  ...clientSchema,
+  ...productSchema
 };
 
 export default {
@@ -37,6 +39,7 @@ export default {
     ...authPaths,
     ...userPaths,
     ...clientPaths,
+    ...productPaths
   },
   components: {
     securitySchemes,

@@ -4,6 +4,7 @@ import {
   SwaggerTypes,
   SwaggerResponse,
   defaultResponses,
+  SwaggerQuery,
 } from '@/shared/infra/swagger/helpers';
 import { TypeAuthUserEnum } from '@/domains/auth/entities/auth-user';
 
@@ -61,12 +62,20 @@ export const authPaths = {
       tags: [authTag],
       summary: 'Login',
       produces: ['application/json'],
-      requestBody: {
-        content: SwaggerContents.applicationJson([
-          ['email', SwaggerTypes.email(true)],
+      parameters: [
+        ...SwaggerQuery.params([
+          ['email', SwaggerTypes.email(true, 'cesar@loomi.com.br')],
           ['password', SwaggerTypes.password(true)],
         ]),
-      },
+
+      ],
+      // requestBody: {
+      //   content: SwaggerContents.applicationJson([
+      //     ['email', SwaggerTypes.email(true)],
+      //     ['password', SwaggerTypes.password(true)],
+      //   ]),
+
+
       responses: {
         ...SwaggerResponse.ok(
           'Succesfully Logged',

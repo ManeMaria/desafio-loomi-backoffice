@@ -4,6 +4,7 @@ import { healthCheckRouter } from '@/main/infra/express/routes/health-check-rout
 import { userRouter } from '@/domains/user/infra/express';
 import { errorMiddleware, responseMiddleware } from '../middlewares';
 import { clientRouter } from '@/domains/client/infra/express';
+import { productRouter } from '@/domains/product/infra/express';
 
 
 export default (app: Express): void => {
@@ -13,6 +14,7 @@ export default (app: Express): void => {
   router.use(authRouter);
   router.use(userRouter);
   router.use(clientRouter);
+  router.use(productRouter)
 
 
   app.use(router);
