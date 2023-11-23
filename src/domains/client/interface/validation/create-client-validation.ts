@@ -17,7 +17,7 @@ for (const field of ['name', 'contact', 'address']) {
 }
 
 validations.push(new NameValidation('name', new ValidatorNameAdapter()));
-validations.push(new NameValidation('address', new ValidatorNameAdapter()));
+
 
 export const makeCreateClientValidation = (): ValidationComposite => {
   return new ValidationComposite(validations);
