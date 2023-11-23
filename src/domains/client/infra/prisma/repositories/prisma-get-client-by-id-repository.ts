@@ -20,6 +20,9 @@ export class PrismaGetClientByIdRepository
     try {
       const clientDTO = await this.prismaConnection.client.findFirst({
         where: { id },
+        include: {
+          order: true,
+        },
       });
 
       if (!clientDTO) {

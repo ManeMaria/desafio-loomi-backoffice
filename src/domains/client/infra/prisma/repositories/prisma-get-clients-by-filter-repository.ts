@@ -33,6 +33,9 @@ export class PrismaGetClientsByFilterRepository
 
       const clientDTOs = await this.prismaConnection.client.findMany({
         where: filtersFormated,
+        include: {
+          order: true,
+        },
 
         orderBy: { [orderBy.property]: orderBy.mode },
         take: pagination.take,
