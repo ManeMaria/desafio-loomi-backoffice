@@ -12,15 +12,19 @@ import {
 import { userPaths, userTag, userSchema } from '@/domains/user/infra/swagger';
 import { clientSchema, clientPaths } from '@/domains/client/infra/swagger'
 import { productSchema, productPaths } from '@/domains/product/infra/swagger';
+import { orderSchema, orderPaths } from '@/domains/order/infra/swagger';
+
+
 
 const tags = [authTag, userTag];
-
+// TODO: usar o file do node para criar esse arquivo
 const schemas = {
   ...errorSchema,
   ...authUserSchema,
   ...userSchema,
   ...clientSchema,
-  ...productSchema
+  ...productSchema,
+  ...orderSchema
 };
 
 export default {
@@ -30,7 +34,7 @@ export default {
     version: '0.0.0',
     description: 'API',
     contact: {
-      email: 'tech@loomi.com.br',
+      email: 'cesar@loomi.com.br',
     },
   },
   servers,
@@ -39,7 +43,8 @@ export default {
     ...authPaths,
     ...userPaths,
     ...clientPaths,
-    ...productPaths
+    ...productPaths,
+    ...orderPaths
   },
   components: {
     securitySchemes,

@@ -27,6 +27,7 @@ model Client {
   enabled   Boolean  @default(true)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  Order     Order[]
 
   @@map("client")
 }
@@ -42,4 +43,17 @@ model Product {
   updatedAt   DateTime @updatedAt @map("updated_at")
 
   @@map("product")
+}
+
+model Order {
+  id         String   @id @default(uuid()) @db.Uuid
+  status     String
+  totalOrder Float
+  enabled    Boolean  @default(true)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  clientId   String   @db.Uuid
+  client     Client   @relation(fields: [clientId], references: [id])
+
+  @@map("order")
 }

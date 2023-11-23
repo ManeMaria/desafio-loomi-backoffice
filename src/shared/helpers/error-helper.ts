@@ -1,5 +1,6 @@
 export enum ExceptionTypes {
   USER = 'USER',
+  ORDER = 'ORDER',
   ADMIN = 'ADMIN',
   SYSTEM = 'SYSTEM',
   SECURITY = 'SECURITY',
