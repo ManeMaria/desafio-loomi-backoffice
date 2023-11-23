@@ -18,7 +18,6 @@ for (const field of ['name', 'description', 'cost', 'quantity']) {
 }
 
 validations.push(new NameValidation('name', new ValidatorNameAdapter()));
-validations.push(new NameValidation('description', new ValidatorNameAdapter()));
 validations.push(new NameValidation('cost', new ValidatorNumberAdapter()));
 validations.push(new NameValidation('quantity', new ValidatorNumberAdapter()));
 
