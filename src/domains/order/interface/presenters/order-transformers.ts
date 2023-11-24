@@ -1,10 +1,13 @@
-import { Order } from '@/domains/order/entities';
+import { Order, OrderItems } from '@/domains/order/entities';
 import {
   OrderDefaultPresenter,
 } from '@/domains/order/interface/presenters';
 
+type OrderDefaultPresenterParams = Order & {
+  orderItems?: OrderItems[];
+}
 export class OrderTransformers {
-  static generateDefaultPresenter(order: Order): OrderDefaultPresenter {
+  static generateDefaultPresenter(order: OrderDefaultPresenterParams): OrderDefaultPresenter {
     return {
       id: order.id,
       clientId: order.clientId,
@@ -14,7 +17,7 @@ export class OrderTransformers {
       updatedAt: order.updatedAt,
 
       // association
-      // inclusion_name: order.entityIncluded,
+      orderItems: order.orderItems || [],
     };
   }
 }

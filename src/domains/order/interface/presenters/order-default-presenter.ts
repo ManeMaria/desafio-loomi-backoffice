@@ -1,9 +1,4 @@
-// Uncomment the next lines if you need
-/*
-* import {
-*   EntityIncludedIntoOrder,
-* } from '@/domains/order/entities';
-*/
+import { OrderItems } from "@/domains/order/entities";
 
 export interface OrderDefaultPresenter {
   id: string;
@@ -14,5 +9,5 @@ export interface OrderDefaultPresenter {
   updatedAt?: Date;
 
   // association
-  // entity_included?: Array<EntityIncludedIntoOrder>;
+  orderItems: OrderItems[];
 }

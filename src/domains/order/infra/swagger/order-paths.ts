@@ -10,8 +10,30 @@ import {
   SwaggerResponse,
 } from '@/shared/infra/swagger/helpers';
 import { OrderStatus } from '@/domains/order/entities';
-
+export const orderItemsTag = 'OrderItems';
 export const orderTag = 'Order';
+
+export const orderItemsSchema = SwaggerSchemas.create('OrderItems', [
+  ['id', SwaggerTypes.uuid(true)],
+  ['quantity', SwaggerTypes.integer(true)],
+  ['costPerItem', SwaggerTypes.integer(true)],
+  ['subTotal', SwaggerTypes.integer(true)],
+  ['orderId', SwaggerTypes.uuid(true)],
+  ['productId', SwaggerTypes.uuid(true)],
+  ['createdAt', SwaggerTypes.dateTime(true)],
+  ['updatedAt', SwaggerTypes.dateTime(true)],
+]);
+
+export const orderItemsObject = SwaggerTypes.object(true, [
+  ['id', SwaggerTypes.uuid(true)],
+  ['quantity', SwaggerTypes.integer(true)],
+  ['costPerItem', SwaggerTypes.integer(true)],
+  ['subTotal', SwaggerTypes.integer(true)],
+  ['orderId', SwaggerTypes.uuid(true)],
+  ['productId', SwaggerTypes.uuid(true)],
+  ['createdAt', SwaggerTypes.dateTime(true)],
+  ['updatedAt', SwaggerTypes.dateTime(true)],
+]);
 
 
 export const clientIntoOrderObject = SwaggerTypes.object(false, [
@@ -29,6 +51,7 @@ export const orderSchema = SwaggerSchemas.create('Order', [
   ['status', SwaggerTypes.enum(true, Object.values(OrderStatus))],
   ['totalOrder', SwaggerTypes.integer(true)],
   ['client', clientIntoOrderObject],
+  ['orderItems', SwaggerTypes.array(true, orderItemsObject, 100)],
   ['createdAt', SwaggerTypes.dateTime(true)],
   ['updatedAt', SwaggerTypes.dateTime(true)],
 ]);
@@ -39,6 +62,7 @@ export const orderObject = SwaggerTypes.object(true, [
   ['status', SwaggerTypes.enum(true, Object.values(OrderStatus))],
   ['totalOrder', SwaggerTypes.integer(true)],
   ['client', clientIntoOrderObject],
+  ['orderItems', SwaggerTypes.array(true, orderItemsObject, 100)],
   ['createdAt', SwaggerTypes.dateTime(true)],
   ['updatedAt', SwaggerTypes.dateTime(true)],
 ]);
@@ -76,8 +100,19 @@ export const orderPaths = {
       requestBody: {
         content: SwaggerContents.applicationJson([
           ['clientId', SwaggerTypes.uuid(true)],
-          ['status', SwaggerTypes.enum(true, Object.values(OrderStatus))],
-          ['totalOrder', SwaggerTypes.integer(true)],
+          ['status', SwaggerTypes.enum(true, Object.values(OrderStatus), 'IN_PREPARATION')],
+          ['orderItems', SwaggerTypes.array(
+            true,
+            SwaggerTypes.object(true, [
+              ['quantity', SwaggerTypes.integer(true)],
+              ['costPerItem', SwaggerTypes.integer(true)],
+              ['subTotal', SwaggerTypes.integer(true)],
+              ['orderId', SwaggerTypes.uuid(true)],
+              ['productId', SwaggerTypes.uuid(true)],
+
+            ]),
+            100
+          )],
         ],
         ),
       },
@@ -139,6 +174,36 @@ export const orderPaths = {
       responses: {
         ...SwaggerResponse.noContent(),
         ...SwaggerResponse.notFound('Order not found'),
+        ...defaultResponses,
+      },
+    },
+  },
+  '/order-items-by-order-id/{id}': {
+    get: {
+      tags: [orderItemsTag],
+      summary: 'Get a OrderItems By OrderId',
+      produces: ['application/json'],
+      parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true],]),
+      security,
+      responses: {
+        ...SwaggerResponse.ok(
+          'OrderItems found',
+          SwaggerContents.applicationJson([], [], SwaggerTypes.array(true, orderItemsObject, 100))
+        ),
+        ...SwaggerResponse.notFound('OrderItems not found'),
+        ...defaultResponses,
+      },
+    },
+
+    delete: {
+      tags: [orderItemsTag],
+      summary: 'Delete a OrderItems by id',
+      produces: ['application/json'],
+      parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true]]),
+      security,
+      responses: {
+        ...SwaggerResponse.noContent(),
+        ...SwaggerResponse.notFound('OrderItems not found'),
         ...defaultResponses,
       },
     },

@@ -18,5 +18,6 @@ export namespace ISaveOrderRepository {
     // association
     clientId: string
   }
-  export type Result = Order;
+  export type Result = Order
+
 }

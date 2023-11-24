@@ -1,3 +1,4 @@
+import { OrderItems } from "@/domains/order/entities";
 
 export enum OrderStatus {
   RECEIVED = 'RECEIVED',
@@ -15,7 +16,8 @@ export type OrderConstructorParams = {
   updatedAt?: Date;
 
   // association
-  clientId: string
+  clientId: string;
+  orderItem?: OrderItems[];
 }
 
 export class Order {
@@ -28,6 +30,7 @@ export class Order {
 
   // association
   clientId: string
+  orderItems?: OrderItems[]
 
   constructor(orderParams: OrderConstructorParams) {
     const {
@@ -39,6 +42,7 @@ export class Order {
       totalOrder,
       // association
       clientId,
+      orderItem
     } = orderParams;
 
     this.id = id;
@@ -49,6 +53,7 @@ export class Order {
     this.updatedAt = updatedAt;
 
     this.clientId = clientId;
+    this.orderItems = orderItem ?? [];
 
     Object.freeze(this);
   }

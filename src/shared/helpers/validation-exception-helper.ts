@@ -6,7 +6,7 @@ import {
 export class ValidationException extends DefaultException {
   constructor(validation: any) {
     super({
-      type: ExceptionTypes.USER,
+      type: ExceptionTypes.ORDER,
       code: 'VALIDATION',
       data: validation,
     });

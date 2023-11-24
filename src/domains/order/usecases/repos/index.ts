@@ -4,3 +4,6 @@ export * from './get-order-by-id-repository';
 export * from './get-orders-by-filter-repository';
 export * from './save-order-repository';
 export * from './update-order-repository';
+export * from './delete-order-items-by-id-repository';
+export * from './get-order-items-by-order-id-repository';
+export * from './save-order-items-repository';

@@ -29,6 +29,13 @@ export class PrismaGetOrderByIdRepository
               address: true,
             },
           },
+          orderItem: {
+            select: {
+              id: true,
+              quantity: true,
+              subTotal: true,
+            },
+          },
         },
       });
 

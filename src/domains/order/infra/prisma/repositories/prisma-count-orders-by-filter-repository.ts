@@ -24,6 +24,7 @@ export class PrismaCountOrdersByFilterRepository
 
       const totalOrders = await this.prismaConnection.order.count({
         where: filtersFormated,
+
       });
 
       return totalOrders;

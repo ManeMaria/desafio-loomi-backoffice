@@ -42,11 +42,20 @@ export class PrismaGetOrdersByFilterRepository
               address: true,
             }
           },
+          orderItem: {
+            select: {
+              id: true,
+              quantity: true,
+              subTotal: true,
+            },
+          },
+
         },
         orderBy: { [orderBy.property]: orderBy.mode },
         take: pagination.take,
         skip: pagination.skip,
       });
+
 
       const orders = orderDTOs.map((orderDTO) => {
         return new Order(convertNullToUndefined<OrderModel>(orderDTO));

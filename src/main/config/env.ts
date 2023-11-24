@@ -44,4 +44,10 @@ export const env = {
       folderAwsS3Bucket: process.env.AWS_S3_FOLDER as string,
     },
   },
+  payment: {
+    fakeStripe: {
+      secretKey: process.env.STRIPE_SECRET_KEY as string,
+      publicKey: process.env.STRIPE_PUBLIC_KEY as string,
+    },
+  }
 };

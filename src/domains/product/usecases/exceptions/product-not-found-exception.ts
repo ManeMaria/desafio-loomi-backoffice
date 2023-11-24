@@ -11,7 +11,7 @@ import {
 export class ProductNotFoundException extends DefaultException {
   constructor(product: Partial<Product>) {
     super({
-      type: ExceptionTypes.USER,
+      type: ExceptionTypes.PRODUCT,
       code: 'PRODUCT_NOT_FOUND',
       data: product,
     });

@@ -10,9 +10,13 @@ import {
   makeHttpGetOrderByIdController,
   makeHttpGetOrdersByFilterController,
   makeHttpUpdateOrderByIdController,
+  makeHttpDeleteOrderItemsByIdController,
+  makeHttpGetOrderItemsByOrderIdController
 } from '@/domains/order/factories/http';
 
 const orderRouter = Router();
+
+// TODO: falta rotas do orderItem
 
 orderRouter
   .route('/orders')
@@ -32,6 +36,13 @@ orderRouter
   .delete(
     authMiddleware(['ADMIN']),
     adaptRoute(makeHttpDeleteOrderByIdController())
+  );
+
+orderRouter.route('/order-item/:id')
+  .get(authMiddleware(['ADMIN', 'USER']), adaptRoute(makeHttpGetOrderItemsByOrderIdController()))
+  .delete(
+    authMiddleware(['ADMIN']),
+    adaptRoute(makeHttpDeleteOrderItemsByIdController())
   );
 
 export { orderRouter };

@@ -33,27 +33,44 @@ model Client {
 }
 
 model Product {
-  id          String   @id @default(uuid()) @db.Uuid
+  id          String      @id @default(uuid()) @db.Uuid
   name        String
   description String
   cost        Float
   quantity    Int
-  enabled     Boolean  @default(true)
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  enabled     Boolean     @default(true)
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  OrderItem   OrderItem[]
 
   @@map("product")
 }
 
 model Order {
-  id         String   @id @default(uuid()) @db.Uuid
+  id         String      @id @default(uuid()) @db.Uuid
   status     String
   totalOrder Float
-  enabled    Boolean  @default(true)
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
-  clientId   String   @db.Uuid
-  client     Client   @relation(fields: [clientId], references: [id])
+  enabled    Boolean     @default(true)
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @updatedAt @map("updated_at")
+  clientId   String      @db.Uuid
+  client     Client      @relation(fields: [clientId], references: [id])
+  orderItem  OrderItem[]
 
   @@map("order")
+}
+
+model OrderItem {
+  id          String   @id @default(uuid()) @db.Uuid
+  orderId     String   @db.Uuid
+  order       Order    @relation(fields: [orderId], references: [id])
+  productId   String   @db.Uuid
+  product     Product  @relation(fields: [productId], references: [id])
+  quantity    Int
+  costPerItem Float
+  subTotal    Float
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("order_items")
 }

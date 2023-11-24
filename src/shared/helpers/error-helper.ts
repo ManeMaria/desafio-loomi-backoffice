@@ -1,10 +1,13 @@
 export enum ExceptionTypes {
   USER = 'USER',
   ORDER = 'ORDER',
+  PRODUCT = 'PRODUCT',
+  ORDER_ITEM = 'ORDER_ITEM',
   ADMIN = 'ADMIN',
   SYSTEM = 'SYSTEM',
   SECURITY = 'SECURITY',
   UNKNOWN = 'UNKNOW',
+
 }
 
 export interface Exception {

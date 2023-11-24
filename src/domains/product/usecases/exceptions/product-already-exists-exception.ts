@@ -10,7 +10,7 @@ import {
 export class ProductAlreadyExistsException extends DefaultException {
   constructor(product: Partial<Product>) {
     super({
-      type: ExceptionTypes.USER,
+      type: ExceptionTypes.PRODUCT,
       code: 'PRODUCT_ALREADY_EXISTS',
       data: product,
     });
