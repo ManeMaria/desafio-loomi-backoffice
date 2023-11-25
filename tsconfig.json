@@ -7,8 +7,6 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowJs": true,
-    //"declaration": true,
-    //"declarationMap": true,
     "sourceMap": true,
     "removeComments": true,
     "strict": true,
@@ -18,16 +16,29 @@
     "strictFunctionTypes": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
-    "rootDirs": ["src", "__tests__"],
+    "rootDirs": [
+      "src",
+      "__tests__"
+    ],
     "baseUrl": "src",
     "paths": {
-      "@/tests/*": ["../__tests__/*"],
-      "@/*": ["*"]
+      "@/tests/*": [
+        "../__tests__/*"
+      ],
+      "@/*": [
+        "*"
+      ]
     },
     "plugins": [
-      { "transform": "ts-auto-mock/transformer", "cacheBetweenTests": false }
+      {
+        "transform": "ts-auto-mock/transformer",
+        "cacheBetweenTests": false
+      }
     ]
   },
-  "include": ["src", "__tests__"],
+  "include": [
+    "src",
+    "__tests__"
+  ],
   "exclude": []
 }
