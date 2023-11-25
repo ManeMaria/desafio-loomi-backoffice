@@ -8,14 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop'
     steps:
+      - name: Change to Working Directory
+        run: cd /home/ubuntu/desafio-loomi-backoffice
+
       - uses: actions/checkout@v2
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY}}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-
-      - name: Change to Working Directory
-        run: cd /home/ubuntu/desafio-loomi-backoffice
 
       - uses: actions/checkout@v2
 
