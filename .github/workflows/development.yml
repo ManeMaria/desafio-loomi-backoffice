@@ -15,7 +15,7 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
 
       - name: Change to Repository Directory
-        run: cd desafio-loomi-backoffice
+        run: cd ./desafio-loomi-backoffice
 
       - uses: actions/checkout@v2
 
