@@ -52,5 +52,5 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            cd ../../docker-compose.yml
+            cd docker-compose.yml
             docker-compose up api -d
