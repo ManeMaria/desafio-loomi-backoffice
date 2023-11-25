@@ -31,10 +31,11 @@ export class AwsS3UploadArchive implements IUploadArchive {
     });
 
     const { file } = params;
-    const acceptedFormats: string[] = [];
+    const acceptedFormats: string[] = ['vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
 
     const mimeTypes = file.mimetype.split('/');
     const fileExtension = mimeTypes[mimeTypes.length - 1].toLowerCase();
+
 
     if (!acceptedFormats.includes(fileExtension)) {
       const error = 'Invalid Format';

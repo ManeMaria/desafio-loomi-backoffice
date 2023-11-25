@@ -6,6 +6,7 @@ import { errorMiddleware, responseMiddleware } from '../middlewares';
 import { clientRouter } from '@/domains/client/infra/express';
 import { productRouter } from '@/domains/product/infra/express';
 import { orderRouter } from '@/domains/order/infra/express';
+import { reportRouter } from '@/domains/billing-sales-reports-by-product/infra/express';
 
 
 export default (app: Express): void => {
@@ -17,6 +18,7 @@ export default (app: Express): void => {
   router.use(clientRouter);
   router.use(productRouter);
   router.use(orderRouter);
+  router.use(reportRouter)
 
 
   app.use(router);

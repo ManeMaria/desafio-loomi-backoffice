@@ -31,15 +31,12 @@ export namespace ICreateProductUsecase {
 
 export class CreateProductUsecase implements ICreateProductUsecase {
 
-
   constructor(
     private readonly getProductByNameRepository: IGetProductByNameRepository,
     private readonly saveProductRepository: ISaveProductRepository,
     private readonly uuidGenerator: IUuidGenerator,
 
-  ) {
-
-  }
+  ) { }
 
   async execute(
     params: ICreateProductUsecase.Params,

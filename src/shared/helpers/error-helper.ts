@@ -7,6 +7,7 @@ export enum ExceptionTypes {
   SYSTEM = 'SYSTEM',
   SECURITY = 'SECURITY',
   UNKNOWN = 'UNKNOW',
+  REPORT = 'REPORT',
 
 }
 
