@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop'
     steps:
-      - uses: easingthemes/ssh-deploy@main
+      - uses: actions/checkout@v2
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY}}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
