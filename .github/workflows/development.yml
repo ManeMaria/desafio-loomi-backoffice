@@ -16,9 +16,6 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: Change to Working Directory
-        run: cd /home/ubuntu/desafio-loomi-backoffice
-
       - name: Create .env file
         run: |
           echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> .env
