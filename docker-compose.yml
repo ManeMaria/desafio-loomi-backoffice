@@ -17,7 +17,6 @@ services:
     build:
       context: .
       dockerfile: ./build/app/Dockerfile
-    command: prisma:migration:push && node dist/main/server.js
     hostname: api
     restart: unless-stopped
     ports:
@@ -25,10 +24,8 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_HOST: 'db-local'
-      DATABASE_PORT: '5432'
-      DATABASE_URL: 'postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@db-local:5432/${DATABASE_NAME}?schema=public'
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_URL: ${DATABASE_URL}
     volumes:
       - ./src:/home/node/src
-    depends_on:
-      - db-local
