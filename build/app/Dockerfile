@@ -11,9 +11,6 @@ RUN npm ci
 
 COPY --chown=node:node src/main/infra/prisma/schema.prisma ./prisma/
 
-
-RUN npx prisma migrate deploy --schema=./src/main/infra/prisma/schema.prisma
-
 RUN npx prisma generate
 
 # -------------->
@@ -45,6 +42,5 @@ COPY --chown=node:node src/main/infra/prisma/migrations ./migrations
 COPY --chown=node:node src/main/infra/prisma/schema.prisma ./
 COPY --chown=node:node package.json ./
 COPY --chown=node:node wait-for.sh ./
-
 
 CMD [ "dumb-init", "node", "dist/main/server.js"]
