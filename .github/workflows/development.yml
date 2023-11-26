@@ -11,17 +11,6 @@ jobs:
       - name: Checkout the files
         uses: actions/checkout@v3
 
-      - name: Copy files with SSH
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          ARGS: '-rltgoDzvO --delete'
-          SOURCE: './'
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: '/home/ubuntu'
-          EXCLUDE: '/dist/, /node_modules/'
-
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
@@ -29,6 +18,10 @@ jobs:
 
       - uses: actions/checkout@v2
         env:
+          ARGS: '-rltgoDzvO --delete'
+          SOURCE: './'
+          TARGET: '/home/ubuntu'
+          EXCLUDE: '/dist/, /node_modules/'
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY}}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
@@ -82,16 +75,16 @@ jobs:
           sudo echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
           sudo echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
 
-      - name: Execute docker-compose
-        working-directory: ${{ github.workspace }}
-        run: |
-          CONTAINERS=$(docker ps -q -f status=exited)
-          if [ -n "$CONTAINERS" ]; then
-            docker rm -f $CONTAINERS
-          else
-            echo "No exited containers to remove."
-          fi
-          pwd ${{ github.workspace }}
-          ls -la  # Exibir novamente o conteúdo do diretório para fins de depuração
-          docker-compose down
-          docker-compose up -d api
+      # - name: Execute docker-compose
+      #   working-directory: ${{ github.workspace }}
+      #   run: |
+      #     CONTAINERS=$(docker ps -q -f status=exited)
+      #     if [ -n "$CONTAINERS" ]; then
+      #       docker rm -f $CONTAINERS
+      #     else
+      #       echo "No exited containers to remove."
+      #     fi
+      #     pwd ${{ github.workspace }}
+      #     ls -la  # Exibir novamente o conteúdo do diretório para fins de depuração
+      #     docker-compose down
+      #     docker-compose up -d api
