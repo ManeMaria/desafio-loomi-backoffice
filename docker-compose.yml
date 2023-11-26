@@ -17,6 +17,7 @@ services:
     build:
       context: .
       dockerfile: ./build/app/Dockerfile
+    command: dumb-init node dist/main/server.js
     hostname: api
     restart: unless-stopped
     ports:
