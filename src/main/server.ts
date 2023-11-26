@@ -38,14 +38,12 @@ async function main() {
     exitSignals.map((sig) =>
       process.on(sig, async () => {
         try {
-          console.log(`\nCaught ${sig}`);
-          console.log('App closing...');
-          expressHttpServer.close();
-          console.log('Express server closed');
-          await prismaConnector.disconnect();
-          console.log('Prisma disconnect with success');
 
-          console.log('App exit with success');
+          expressHttpServer.close();
+
+          await prismaConnector.disconnect();
+
+
           process.exit(exitStatus.Success);
         } catch (error) {
           const errorWithType = error as Error;
