@@ -1,18 +1,18 @@
 version: '3.8'
 
 services:
-  db-local:
-    image: postgres:14
-    hostname: db-local
-    restart: unless-stopped
-    ports:
-      - '${DATABASE_PORT:?DATABASE_PORT env var is missing on .env file}:5432'
-    environment:
-      POSTGRES_DB: ${DATABASE_NAME:?DATABASE_NAME env var is missing on .env file}
-      POSTGRES_USER: ${DATABASE_USERNAME:?DATABASE_USERNAME env var is missing on .env file}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD env var is missing on .env file}
-    volumes:
-      - ./data/db-local:/var/lib/postgresql/data
+  # db-local:
+  #   image: postgres:14
+  #   hostname: db-local
+  #   restart: unless-stopped
+  #   ports:
+  #     - '${DATABASE_PORT:?DATABASE_PORT env var is missing on .env file}:5432'
+  #   environment:
+  #     POSTGRES_DB: ${DATABASE_NAME:?DATABASE_NAME env var is missing on .env file}
+  #     POSTGRES_USER: ${DATABASE_USERNAME:?DATABASE_USERNAME env var is missing on .env file}
+  #     POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD env var is missing on .env file}
+  #   volumes:
+  #     - ./data/db-local:/var/lib/postgresql/data
   api:
     build:
       context: .
