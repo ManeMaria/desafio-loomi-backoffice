@@ -18,24 +18,24 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> .env
-          echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> .env
-          echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> .env
-          echo "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}" >> .env
-          echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
-          echo "COGNITO_API_VERSION=${{ secrets.COGNITO_API_VERSION }}" >> .env
-          echo "COGNITO_USER_POOL_ID=${{ secrets.COGNITO_USER_POOL_ID }}" >> .env
-          echo "COGNITO_CLIENT_ID=${{ secrets.COGNITO_CLIENT_ID }}" >> .env
-          echo "COGNITO_REGION=${{ secrets.COGNITO_REGION }}" >> .env
-          echo "PRODUCTION_DEPLOY_URL=${{ secrets.PRODUCTION_DEPLOY_URL }}" >> .env
-          echo "PRODUCTION_FRONT_DEPLOY_URL=${{ secrets.PRODUCTION_FRONT_DEPLOY_URL }}" >> .env
-          echo "STAGE_DEPLOY_URL=${{ secrets.STAGE_DEPLOY_URL }}" >> .env
-          echo "STAGE_FRONT_DEPLOY_URL=${{ secrets.STAGE_FRONT_DEPLOY_URL }}" >> .env
-          echo "AWS_BUCKET_NAME=${{ secrets.AWS_BUCKET_NAME }}" >> .env
-          echo "AWS_BUCKET_REGION=${{ secrets.AWS_REGION }}" >> .env
-          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
-          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
+          sudo echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> .env
+          sudo echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> .env
+          sudo echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> .env
+          sudo echo "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}" >> .env
+          sudo echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
+          sudo echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          sudo echo "COGNITO_API_VERSION=${{ secrets.COGNITO_API_VERSION }}" >> .env
+          sudo echo "COGNITO_USER_POOL_ID=${{ secrets.COGNITO_USER_POOL_ID }}" >> .env
+          sudo echo "COGNITO_CLIENT_ID=${{ secrets.COGNITO_CLIENT_ID }}" >> .env
+          sudo echo "COGNITO_REGION=${{ secrets.COGNITO_REGION }}" >> .env
+          sudo echo "PRODUCTION_DEPLOY_URL=${{ secrets.PRODUCTION_DEPLOY_URL }}" >> .env
+          sudo echo "PRODUCTION_FRONT_DEPLOY_URL=${{ secrets.PRODUCTION_FRONT_DEPLOY_URL }}" >> .env
+          sudo echo "STAGE_DEPLOY_URL=${{ secrets.STAGE_DEPLOY_URL }}" >> .env
+          sudo echo "STAGE_FRONT_DEPLOY_URL=${{ secrets.STAGE_FRONT_DEPLOY_URL }}" >> .env
+          sudo echo "AWS_BUCKET_NAME=${{ secrets.AWS_BUCKET_NAME }}" >> .env
+          sudo echo "AWS_BUCKET_REGION=${{ secrets.AWS_REGION }}" >> .env
+          sudo echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
+          sudo echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
 
       - name: Move .env file to correct directory
         run: |
