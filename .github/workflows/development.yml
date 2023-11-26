@@ -31,11 +31,7 @@ jobs:
 
       - name: Display GITHUB_WORKSPACE
         run: |
-          echo ls -la $GITHUB_WORKSPACE/desafio-loomi-backoffice"
-
-      - name: Display GITHUB_WORKSPACE
-        run: |
-          echo ls -la ${{ github.workspace }}/desafio-loomi-backoffice"
+          echo ls -la ${{ github.workspace }}
 
       - name: SSH into EC2 instance and run Docker Compose
         uses: appleboy/ssh-action@master
@@ -45,7 +41,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            cd $GITHUB_WORKSPACE/desafio-loomi-backoffice
+            cd ${{ github.workspace }}
               CONTAINERS=$(docker ps -q -f status=exited)
               if [ -n "$CONTAINERS" ]; then
                 docker rm -f $CONTAINERS
