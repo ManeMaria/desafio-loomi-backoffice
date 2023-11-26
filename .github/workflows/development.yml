@@ -18,25 +18,25 @@ jobs:
 
       - name: Create .env file
         run: |
-          sudo echo "API_PORT=${{ secrets.API_PORT }}" >> /desafio-loomi-backoffice.env
-          sudo echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> /desafio-loomi-backoffice.env
-          sudo echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> /desafio-loomi-backoffice.env
-          sudo echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> /desafio-loomi-backoffice.env
-          sudo echo "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}" >> /desafio-loomi-backoffice.env
-          sudo echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> /desafio-loomi-backoffice.env
-          sudo echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> /desafio-loomi-backoffice.env
-          sudo echo "COGNITO_API_VERSION=${{ secrets.COGNITO_API_VERSION }}" >> /desafio-loomi-backoffice.env
-          sudo echo "COGNITO_USER_POOL_ID=${{ secrets.COGNITO_USER_POOL_ID }}" >> /desafio-loomi-backoffice.env
-          sudo echo "COGNITO_CLIENT_ID=${{ secrets.COGNITO_CLIENT_ID }}" >> /desafio-loomi-backoffice.env
-          sudo echo "COGNITO_REGION=${{ secrets.COGNITO_REGION }}" >> /desafio-loomi-backoffice.env
-          sudo echo "PRODUCTION_DEPLOY_URL=${{ secrets.PRODUCTION_DEPLOY_URL }}" >> /desafio-loomi-backoffice.env
-          sudo echo "PRODUCTION_FRONT_DEPLOY_URL=${{ secrets.PRODUCTION_FRONT_DEPLOY_URL }}" >> /desafio-loomi-backoffice.env
-          sudo echo "STAGE_DEPLOY_URL=${{ secrets.STAGE_DEPLOY_URL }}" >> /desafio-loomi-backoffice.env
-          sudo echo "STAGE_FRONT_DEPLOY_URL=${{ secrets.STAGE_FRONT_DEPLOY_URL }}" >> /desafio-loomi-backoffice.env
-          sudo echo "AWS_BUCKET_NAME=${{ secrets.AWS_BUCKET_NAME }}" >> /desafio-loomi-backoffice.env
-          sudo echo "AWS_BUCKET_REGION=${{ secrets.AWS_REGION }}" >> /desafio-loomi-backoffice.env
-          sudo echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> /desafio-loomi-backoffice.env
-          sudo echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> /desafio-loomi-backoffice.env
+          sudo echo "API_PORT=${{ secrets.API_PORT }}" >> .env
+          sudo echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> .env
+          sudo echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> .env
+          sudo echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> .env
+          sudo echo "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}" >> .env
+          sudo echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
+          sudo echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          sudo echo "COGNITO_API_VERSION=${{ secrets.COGNITO_API_VERSION }}" >> .env
+          sudo echo "COGNITO_USER_POOL_ID=${{ secrets.COGNITO_USER_POOL_ID }}" >> .env
+          sudo echo "COGNITO_CLIENT_ID=${{ secrets.COGNITO_CLIENT_ID }}" >> .env
+          sudo echo "COGNITO_REGION=${{ secrets.COGNITO_REGION }}" >> .env
+          sudo echo "PRODUCTION_DEPLOY_URL=${{ secrets.PRODUCTION_DEPLOY_URL }}" >> .env
+          sudo echo "PRODUCTION_FRONT_DEPLOY_URL=${{ secrets.PRODUCTION_FRONT_DEPLOY_URL }}" >> .env
+          sudo echo "STAGE_DEPLOY_URL=${{ secrets.STAGE_DEPLOY_URL }}" >> .env
+          sudo echo "STAGE_FRONT_DEPLOY_URL=${{ secrets.STAGE_FRONT_DEPLOY_URL }}" >> .env
+          sudo echo "AWS_BUCKET_NAME=${{ secrets.AWS_BUCKET_NAME }}" >> .env
+          sudo echo "AWS_BUCKET_REGION=${{ secrets.AWS_REGION }}" >> .env
+          sudo echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
+          sudo echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
 
       - name: Move .env file to correct directory
         run: |
@@ -63,7 +63,5 @@ jobs:
           script: |
             sudo cd /desafio-loomi-backoffice
             docker rm -f $(docker ps -q -f status=exited)
-            git pull origin develop
             docker-compose down
-            docker-compose pull
             docker-compose up api
