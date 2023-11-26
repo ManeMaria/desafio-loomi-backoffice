@@ -61,7 +61,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            sudo cd /desafio-loomi-backoffice
+            cd /desafio-loomi-backoffice
             docker rm -f $(docker ps -q -f status=exited)
             docker-compose down
             docker-compose up api
