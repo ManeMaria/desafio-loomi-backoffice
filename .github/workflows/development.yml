@@ -74,4 +74,4 @@ jobs:
           pwd ${{ github.workspace }}
           ls -la  # Exibir novamente o conteúdo do diretório para fins de depuração
           docker-compose down
-          docker-compose up api
+          docker-compose up -d api
