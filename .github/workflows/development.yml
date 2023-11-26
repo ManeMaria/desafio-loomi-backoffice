@@ -44,7 +44,7 @@ jobs:
 
       - name: Move .env file to correct directory
         run: |
-          sudo mv .env /desafio-loomi-backoffice
+          sudo mv .env ${{ github.workspace }}/desafio-loomi-backoffice
         working-directory: ${{ github.workspace }}
 
       - name: Configure AWS credentials
@@ -65,7 +65,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            cd /desafio-loomi-backoffice
+            cd ${{ github.workspace }}/desafio-loomi-backoffice
             docker rm -f $(docker ps -q -f status=exited)
             docker-compose down
             docker-compose up api
