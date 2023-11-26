@@ -31,8 +31,7 @@ jobs:
 
       - name: Display GITHUB_WORKSPACE
         run: |
-          cd ${{ github.workspace }}
-          pwd ${{ github.workspace }}
+          ls -la /home/runner/work/***/***/
 
       - name: SSH into EC2 instance and run Docker Compose
         uses: appleboy/ssh-action@master
@@ -41,14 +40,16 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
-          script: |
-            cd ${{ github.workspace }}
-              CONTAINERS=$(docker ps -q -f status=exited)
-              if [ -n "$CONTAINERS" ]; then
-                docker rm -f $CONTAINERS
-              else
-                echo "No exited containers to remove."
-              fi
-              ls -la  # Exibir novamente o conteúdo do diretório para fins de depuração
-              docker-compose -f docker-compose.yml down
-              docker-compose -f docker-compose.yml up api
+
+      - name: Execute docker-compose
+        working-directory: ${{ github.workspace }}
+        run: |
+          CONTAINERS=$(docker ps -q -f status=exited)
+          if [ -n "$CONTAINERS" ]; then
+            docker rm -f $CONTAINERS
+          else
+            echo "No exited containers to remove."
+          fi
+          ls -la  # Exibir novamente o conteúdo do diretório para fins de depuração
+          docker-compose down
+          docker-compose up api
