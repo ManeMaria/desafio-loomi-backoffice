@@ -71,6 +71,7 @@ jobs:
           else
             echo "No exited containers to remove."
           fi
+          echo pwd
           ls -la  # Exibir novamente o conteúdo do diretório para fins de depuração
           docker-compose down
           docker-compose up -d api
