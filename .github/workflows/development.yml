@@ -39,7 +39,7 @@ jobs:
 
       - name: Move .env file to correct directory
         run: |
-          sudo mv .env /home/ubuntu
+          sudo mv .env home/ubuntu
         working-directory: ${{ github.workspace }}
 
       - name: Configure AWS credentials
