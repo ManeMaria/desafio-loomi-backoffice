@@ -58,6 +58,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
+            git pull origin develop
             docker-compose down
             docker-compose pull --ignore-buildable
             docker-compose up api
