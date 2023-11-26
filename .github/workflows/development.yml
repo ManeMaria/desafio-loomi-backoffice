@@ -37,6 +37,11 @@ jobs:
           echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
           echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
 
+      - name: Move .env file to correct directory
+        run: |
+          mv .env /home/ubuntu
+        working-directory: ${{ github.workspace }}
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -52,4 +57,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
+            docker-compose down
+            docker-compose pull --ignore-buildable
             docker-compose up api
