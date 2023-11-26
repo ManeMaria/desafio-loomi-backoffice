@@ -53,4 +53,4 @@ COPY --chown=node:node package.json ./
 COPY --chown=node:node wait-for.sh ./
 
 
-CMD [ "node", "dist/main/server.js"]
+CMD [ "dumb-init", "node", "dist/main/server.js"]
