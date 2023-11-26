@@ -11,7 +11,7 @@ RUN npm ci
 
 COPY --chown=node:node src/main/infra/prisma/schema.prisma ./prisma/
 
-
+## tentar--schema= /home/node/src/main/infra/prisma/schema.prisma
 RUN npx prisma migrate deploy --schema=src/main/infra/prisma/schema.prisma
 
 RUN npx prisma generate
