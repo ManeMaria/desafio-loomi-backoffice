@@ -53,14 +53,6 @@ jobs:
       - name: Remove Unused Docker Volumes
         run: docker volume prune --force
 
-      - name: Remove Inactive Docker Containers
-        run: |
-          inactive_containers=$(docker ps -q -f status=exited)
-           if [ -n "$inactive_containers" ]; then
-             docker rm $inactive_containers
-           else
-             echo "Não há containers inativos para remover."
-
       - name: SSH into EC2 instance and run Docker Compose
         uses: appleboy/ssh-action@master
         with:
@@ -69,6 +61,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
+            docker rm -f $(docker ps -q -f status=exited)
             git pull origin develop
             docker-compose down
             docker-compose pull
