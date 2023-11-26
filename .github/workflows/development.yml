@@ -6,7 +6,6 @@ on:
 jobs:
   continuous-deployment:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
     steps:
       - name: Checkout the files
         uses: actions/checkout@v3
@@ -77,7 +76,5 @@ jobs:
           else
             echo "No exited containers to remove."
           fi
-          pwd ${{ github.workspace }}
-          ls -la  # Exibir novamente o conteúdo do diretório para fins de depuração
           docker-compose down
           docker-compose up -d api
