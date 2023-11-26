@@ -4,7 +4,7 @@
   "description": "BackOffice API",
   "main": "dist/main/server.js",
   "scripts": {
-    "build": "npm run prisma:migration:push && npm run tsc -p tsconfig-build.json",
+    "build": "npm run prisma:migration:push && tsc -p tsconfig-build.json",
     "build:local": "rimraf dist && npm run build",
     "start": "node dist/main/server.js",
     "start:local": "npm run prisma:migration:push && npx nodemon --exec 'npm run build:local && npm run start' --watch src -e ts",
