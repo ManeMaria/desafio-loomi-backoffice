@@ -30,9 +30,9 @@ async function main() {
     prismaConnector.connect();
     console.log(`Prisma connect with success to ${env.databases.postgres.url}`);
 
-    expressHttpServer.listen(env.httpServer.port, () => {
-      console.log('process.env.PORT', process.env.PORT)
-      console.log(`Server runing at ${env.httpServer.port}`)
+    expressHttpServer.listen(8080, () => {
+
+      console.log(`Server runing at 8080`)
     });
 
     const exitSignals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM', 'SIGQUIT'];
