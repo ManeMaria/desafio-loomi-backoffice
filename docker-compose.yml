@@ -21,7 +21,7 @@ services:
     hostname: api
     restart: unless-stopped
     ports:
-      - '${API_PORT:?API_PORT env var is missing on .env file}:${API_PORT}'
+      - '${API_PORT:?API_PORT env var is missing on .env file}:8080'
     env_file:
       - .env
     environment:
