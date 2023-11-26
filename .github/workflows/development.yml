@@ -75,16 +75,16 @@ jobs:
           sudo echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
           sudo echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
 
-      # - name: Execute docker-compose
-      #   working-directory: ${{ github.workspace }}
-      #   run: |
-      #     CONTAINERS=$(docker ps -q -f status=exited)
-      #     if [ -n "$CONTAINERS" ]; then
-      #       docker rm -f $CONTAINERS
-      #     else
-      #       echo "No exited containers to remove."
-      #     fi
-      #     pwd ${{ github.workspace }}
-      #     ls -la  # Exibir novamente o conteúdo do diretório para fins de depuração
-      #     docker-compose down
-      #     docker-compose up -d api
+      - name: Execute docker-compose
+        working-directory: ${{ github.workspace }}
+        run: |
+          CONTAINERS=$(docker ps -q -f status=exited)
+          if [ -n "$CONTAINERS" ]; then
+            docker rm -f $CONTAINERS
+          else
+            echo "No exited containers to remove."
+          fi
+          pwd ${{ github.workspace }}
+          ls -la  # Exibir novamente o conteúdo do diretório para fins de depuração
+          docker-compose down
+          docker-compose up -d api
