@@ -29,6 +29,10 @@ jobs:
       - name: Remove Unused Docker Volumes
         run: docker volume prune --force
 
+      - name: Display GITHUB_WORKSPACE
+        run: |
+          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+
       - name: SSH into EC2 instance and run Docker Compose
         uses: appleboy/ssh-action@master
         with:
@@ -38,12 +42,12 @@ jobs:
           port: 22
           script: |
             cd $GITHUB_WORKSPACE
-            CONTAINERS=$(docker ps -q -f status=exited)
-            if [ -n "$CONTAINERS" ]; then
-              docker rm -f $CONTAINERS
-            else
-              echo "No exited containers to remove."
-            fi
-            ls -la  # Exibir novamente o conteúdo do diretório para fins de depuração
-            docker-compose -f docker-compose.yml down
-            docker-compose -f docker-compose.yml up api
+              CONTAINERS=$(docker ps -q -f status=exited)
+              if [ -n "$CONTAINERS" ]; then
+                docker rm -f $CONTAINERS
+              else
+                echo "No exited containers to remove."
+              fi
+              ls -la  # Exibir novamente o conteúdo do diretório para fins de depuração
+              docker-compose -f docker-compose.yml down
+              docker-compose -f docker-compose.yml up api
