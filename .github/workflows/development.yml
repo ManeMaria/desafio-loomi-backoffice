@@ -50,6 +50,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Remove Unused Docker Volumes
+        run: docker volume prune --force
+
+      - name: Remove Inactive Docker Containers
+        run: docker rm $(docker ps -q -f status=exited)
+
       - name: SSH into EC2 instance and run Docker Compose
         uses: appleboy/ssh-action@master
         with:
@@ -60,5 +66,5 @@ jobs:
           script: |
             git pull origin develop
             docker-compose down
-            docker-compose pull --ignore-buildable
+            docker-compose pull
             docker-compose up api
