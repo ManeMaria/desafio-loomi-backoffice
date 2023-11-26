@@ -45,7 +45,8 @@ jobs:
       - name: Move .env file to correct directory
         run: |
           sudo mv .env ${{ github.workspace }}
-        working-directory: ${{ github.workspace }}\
+        working-directory: ${{ github.workspace }}
+
       - name: Verify .env file in the directory
         run: ls -la /home/runner/work/***/***/
 
