@@ -31,7 +31,8 @@ jobs:
 
       - name: Display GITHUB_WORKSPACE
         run: |
-          echo ls -la ${{ github.workspace }}
+          cd ${{ github.workspace }}
+          echo pwd
 
       - name: SSH into EC2 instance and run Docker Compose
         uses: appleboy/ssh-action@master
