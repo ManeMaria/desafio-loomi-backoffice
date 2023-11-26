@@ -31,7 +31,11 @@ jobs:
 
       - name: Display GITHUB_WORKSPACE
         run: |
-          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE/desafio-loomi-backoffice"
+          echo ls -la $GITHUB_WORKSPACE/desafio-loomi-backoffice"
+
+      - name: Display GITHUB_WORKSPACE
+        run: |
+          echo ls -la ${{ github.workspace }}/desafio-loomi-backoffice"
 
       - name: SSH into EC2 instance and run Docker Compose
         uses: appleboy/ssh-action@master
