@@ -52,4 +52,4 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            sudo docker-compose up api
+            docker-compose up api
