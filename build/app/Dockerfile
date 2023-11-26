@@ -52,5 +52,5 @@ COPY --chown=node:node src/main/infra/prisma/schema.prisma ./
 COPY --chown=node:node package.json ./
 COPY --chown=node:node wait-for.sh ./
 
-# Use 'dumb-init' para iniciar o servidor
-CMD [ "dumb-init", "node", "dist/main/server.js"]
+
+CMD [ "node", "dist/main/server.js"]
